@@ -36,7 +36,7 @@ entity GraphicsPicker is
 		clk : in  STD_LOGIC;
 		tile : in  STD_LOGIC_VECTOR (7 downto 0);
 		sprite : in  STD_LOGIC_VECTOR (7 downto 0);
-		x : in  integer range 0 to 530;
+		x : in  integer range 0 to 520;
 		y : in  integer range 0 to 800;
 		graphics : out STD_LOGIC_VECTOR (7 downto 0)
 	);

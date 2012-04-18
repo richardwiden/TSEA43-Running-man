@@ -45,7 +45,7 @@ ARCHITECTURE behavior OF TestGrahpicsPicker IS
          clk : IN  std_logic;
          tile : IN  std_logic_vector(7 downto 0);
          sprite : IN  std_logic_vector(7 downto 0);
-         x : in integer range 0 to 530;
+         x : in integer range 0 to 520;
          y : in integer range 0 to 800;
          graphics : OUT  std_logic_vector(7 downto 0)
         );
@@ -56,7 +56,7 @@ ARCHITECTURE behavior OF TestGrahpicsPicker IS
    signal clk : std_logic := '0';
    signal tile : std_logic_vector(7 downto 0) := (others => '1');
    signal sprite : std_logic_vector(7 downto 0) := (others => '0');
-   signal x : 	integer range 0 to 530 := 0 ;
+   signal x : 	integer range 0 to 520 := 0 ;
    signal y :  integer range 0 to 800 := 0 ;
 
  	--Outputs
