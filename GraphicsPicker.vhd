@@ -34,11 +34,17 @@ use IEEE.numeric_std;
 entity GraphicsPicker is
 	Port ( 
 		clk : in  STD_LOGIC;
-		tile : in  STD_LOGIC_VECTOR (7 downto 0);
-		sprite : in  STD_LOGIC_VECTOR (7 downto 0);
-		y : in  integer range 0 to 520;
+		tileVgaRed: in  std_logic_vector(2 downto 0);					
+		tileVgaGreen: in  std_logic_vector(2 downto 0);		
+		tileVgaBlue: in  std_logic_vector(2 downto 1);
+		spriteVgaRed: in  std_logic_vector(2 downto 0);					
+		spriteVgaGreen: in  std_logic_vector(2 downto 0);		
+		spriteVgaBlue: in  std_logic_vector(2 downto 1);
+		y : in  integer range 0 to 521;
 		x : in  integer range 0 to 800;
-		graphics : out STD_LOGIC_VECTOR (7 downto 0)
+		vgaRed: OUT  std_logic_vector(2 downto 0);					
+		vgaGreen: OUT  std_logic_vector(2 downto 0);		
+		vgaBlue: OUT  std_logic_vector(2 downto 1)
 	);
 end GraphicsPicker;
 
@@ -48,10 +54,14 @@ begin
 process(clk)
 begin
 if rising_edge(clk) then
-	if y>200 then
-		graphics<=tile;	
+	if y>200 and x>200 then
+		vgaRed<=spriteVgaRed;	
+		vgaGreen<=spriteVgaGreen;
+		vgaBlue<=spriteVgaBlue;	
 	else
-		graphics <= sprite;
+		vgaRed<=tileVgaRed;	
+		vgaGreen<=tileVgaGreen;
+		vgaBlue<=tileVgaBlue;
 	end if;
 end if;
 end process;

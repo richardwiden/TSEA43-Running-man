@@ -33,9 +33,14 @@ entity FirstGraphicTest is
     PORT(
          clk : IN  std_logic   ;   
 			vsync : OUT  std_logic;
-         hsync : OUT  std_logic
+         hsync : OUT  std_logic;
+			vgaRed: OUT  std_logic_vector(2 downto 0);					
+			vgaGreen: OUT  std_logic_vector(2 downto 0);		
+			vgaBlue: OUT  std_logic_vector(2 downto 1)		
         );
 end FirstGraphicTest;
+
+
 
 architecture Behavioral of FirstGraphicTest is
     -- Component Declaration for the Unit Under Test (UUT)
@@ -43,11 +48,17 @@ architecture Behavioral of FirstGraphicTest is
     COMPONENT GraphicsPicker
     PORT(
          clk : IN  std_logic;
-         tile : IN  std_logic_vector(7 downto 0);
-         sprite : IN  std_logic_vector(7 downto 0);
-         y : in integer range 0 to 520;
+         tileVgaRed: in  std_logic_vector(2 downto 0);					
+			tileVgaGreen: in  std_logic_vector(2 downto 0);		
+			tileVgaBlue: in  std_logic_vector(2 downto 1);
+			spriteVgaRed: in  std_logic_vector(2 downto 0);					
+			spriteVgaGreen: in  std_logic_vector(2 downto 0);		
+			spriteVgaBlue: in  std_logic_vector(2 downto 1);
+         y : in integer range 0 to 521;
          x : in integer range 0 to 800;
-         graphics : OUT  std_logic_vector(7 downto 0)
+         vgaRed: OUT  std_logic_vector(2 downto 0);					
+			vgaGreen: OUT  std_logic_vector(2 downto 0);		
+			vgaBlue: OUT  std_logic_vector(2 downto 1)
         );
     END COMPONENT;
     
@@ -57,34 +68,47 @@ architecture Behavioral of FirstGraphicTest is
          rst : IN  std_logic;
          vsynk : OUT  std_logic;
          hsynk : OUT  std_logic;
-         y : inout  integer range 0 to 520;
+         y : inout  integer range 0 to 521;
 			x : inout  integer range 0 to 800
         );
     END COMPONENT;
 
    --Inputs   
-   signal tile : std_logic_vector(7 downto 0) := (others => '1');
-   signal sprite : std_logic_vector(7 downto 0) := (others => '0');
-   signal y : 	integer range 0 to 520 := 0 ;
+   
+	
+	signal tileVgaRed:		std_logic_vector(2 downto 0) := (others => '1');				
+	signal tileVgaGreen:		std_logic_vector(2 downto 0) := (others => '0');	
+	signal tileVgaBlue:		std_logic_vector(2 downto 1) := (others => '1');
+	
+	signal spriteVgaRed:		std_logic_vector(2 downto 0) := (others => '0');				
+	signal spriteVgaGreen:	std_logic_vector(2 downto 0) := (others => '1');	
+	signal spriteVgaBlue:	std_logic_vector(2 downto 1) := (others => '0');
+	   
+   signal y : 	integer range 0 to 521 := 0 ;
    signal x :  integer range 0 to 800 := 0 ;
 
- 	--Outputs
-   signal graphics : std_logic_vector(7 downto 0);
 
 
 	--signal clk : std_logic := '0';
-	signal rst : std_logic := '0';
+	signal rst : std_logic := '1';
 	
 	-- Clock period definitions
    constant clk_period : time := 1 ns;
+	signal resetcounter : integer range 0 to 20 :=0;
 begin
 	picker: GraphicsPicker PORT MAP (
-          clk => clk,
-          tile => tile,
-          sprite => sprite,
-          x => x,
-          y => y,
-          graphics => graphics
+				clk => clk,
+				tileVgaRed => tileVgaRed,					
+				tileVgaGreen =>tileVgaGreen,
+				tileVgaBlue => tileVgaBlue,
+				spriteVgaRed => spriteVgaRed,					
+				spriteVgaGreen =>spriteVgaGreen,
+				spriteVgaBlue => spriteVgaBlue,
+				x => x,
+				y => y,
+				vgaRed => vgaRed,					
+				vgaGreen =>vgaGreen,
+				vgaBlue => vgaBlue
         );
 		  
 	raknare: sraknare PORT MAP (
@@ -96,12 +120,16 @@ begin
           y => y
         );		
 
-  --clk_process :process
-   --begin
-		--clk <= '0';
-		--wait for clk_period/2;
-		--clk <= '1';
-		--wait for clk_period/2;
-   --end process;		  
+  clk_process :process
+  
+   begin
+		if rst = '1' and resetcounter = 19 then
+			rst<= '0';
+		elsif resetcounter =19 then
+			resetcounter <=19;
+		else
+			resetcounter <= resetcounter +1;			
+		end if;
+   end process;		  
 end Behavioral;
 
