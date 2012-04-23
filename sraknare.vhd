@@ -33,8 +33,8 @@
 			rst : in  STD_LOGIC;
 			vsynk : out  STD_LOGIC;
 			hsynk : out  STD_LOGIC;
-			y : inout  integer range 0 to 521;
-			x : inout  integer range 0 to 800
+			y : inout  integer range 0 to 520;
+			x : inout  integer range 0 to 799
 		);
 	end sraknare;
 	architecture Behavioral of sraknare is
@@ -60,9 +60,9 @@ else
 		counter <= 3;
 	else
 		counter <= 0;	 
-		if x=800 then  --800
+		if x=799 then  --800
 			x<=0;  --0
-			if y=521 then --521
+			if y=520 then --521
 				y<=0;  --0
 			else
 				y<=y + 1;

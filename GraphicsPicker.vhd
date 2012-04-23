@@ -40,8 +40,8 @@ entity GraphicsPicker is
 		spriteVgaRed: in  std_logic_vector(2 downto 0);					
 		spriteVgaGreen: in  std_logic_vector(2 downto 0);		
 		spriteVgaBlue: in  std_logic_vector(2 downto 1);
-		y : in  integer range 0 to 521;
-		x : in  integer range 0 to 800;
+		y : in  integer range 0 to 520;
+		x : in  integer range 0 to 799;
 		vgaRed: OUT  std_logic_vector(2 downto 0);					
 		vgaGreen: OUT  std_logic_vector(2 downto 0);		
 		vgaBlue: OUT  std_logic_vector(2 downto 1)
@@ -49,19 +49,34 @@ entity GraphicsPicker is
 end GraphicsPicker;
 
 architecture Behavioral of GraphicsPicker is
+signal whiteVgaRed: std_logic_vector(2 downto 0) := "111";					
+signal whiteVgaGreen:   std_logic_vector(2 downto 0) := "000";					
+signal whiteVgaBlue:   std_logic_vector(2 downto 1) := "00";					
+signal	blackVgaRed: std_logic_vector(2 downto 0) := "000";					
+signal	blackVgaGreen:   std_logic_vector(2 downto 0) := "000";					
+signal	blackVgaBlue:   std_logic_vector(2 downto 1) := "11";		
 
 begin 
+				
 process(clk)
 begin
 if rising_edge(clk) then
-	if y>200 and x>200 then
-		vgaRed<=spriteVgaRed;	
-		vgaGreen<=spriteVgaGreen;
-		vgaBlue<=spriteVgaBlue;	
+	if y>200 and y<480 then
+		if x<640 then
+			vgaRed<=spriteVgaRed;	
+			vgaGreen<=spriteVgaGreen;
+			vgaBlue<=spriteVgaBlue;		
+		end if;
+	elsif y<=200 then
+		if x<640 then
+			vgaRed<=tileVgaRed;	
+			vgaGreen<=tileVgaGreen;
+			vgaBlue<=tileVgaBlue;		
+		end if;
 	else
-		vgaRed<=tileVgaRed;	
-		vgaGreen<=tileVgaGreen;
-		vgaBlue<=tileVgaBlue;
+		vgaRed<="000";
+		vgaGreen<="000";
+		vgaBlue<="00";
 	end if;
 end if;
 end process;

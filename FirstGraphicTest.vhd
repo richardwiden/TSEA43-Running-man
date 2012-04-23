@@ -54,8 +54,8 @@ architecture Behavioral of FirstGraphicTest is
 			spriteVgaRed: in  std_logic_vector(2 downto 0);					
 			spriteVgaGreen: in  std_logic_vector(2 downto 0);		
 			spriteVgaBlue: in  std_logic_vector(2 downto 1);
-         y : in integer range 0 to 521;
-         x : in integer range 0 to 800;
+         y : in integer range 0 to 520;
+         x : in integer range 0 to 799;
          vgaRed: OUT  std_logic_vector(2 downto 0);					
 			vgaGreen: OUT  std_logic_vector(2 downto 0);		
 			vgaBlue: OUT  std_logic_vector(2 downto 1)
@@ -68,10 +68,23 @@ architecture Behavioral of FirstGraphicTest is
          rst : IN  std_logic;
          vsynk : OUT  std_logic;
          hsynk : OUT  std_logic;
-         y : inout  integer range 0 to 521;
-			x : inout  integer range 0 to 800
+         y : inout  integer range 0 to 520;
+			x : inout  integer range 0 to 799
         );
     END COMPONENT;
+	 
+	 COMPONENT SpriteGpu
+    PORT( 	clk : in  STD_LOGIC;
+				x : in  integer;
+				y : in  integer;
+				spriteVgaRed: out  std_logic_vector(2 downto 0);					
+				spriteVgaGreen: out  std_logic_vector(2 downto 0);		
+				spriteVgaBlue: out  std_logic_vector(2 downto 1);
+				collision: out std_logic;
+				rst : in  STD_LOGIC);
+
+    END COMPONENT;
+
 
    --Inputs   
    
@@ -84,8 +97,8 @@ architecture Behavioral of FirstGraphicTest is
 	signal spriteVgaGreen:	std_logic_vector(2 downto 0) := (others => '1');	
 	signal spriteVgaBlue:	std_logic_vector(2 downto 1) := (others => '0');
 	   
-   signal y : 	integer range 0 to 521 := 0 ;
-   signal x :  integer range 0 to 800 := 0 ;
+   signal y : 	integer range 0 to 520 := 0 ;
+   signal x :  integer range 0 to 799 := 0 ;
 
 
 
@@ -95,6 +108,7 @@ architecture Behavioral of FirstGraphicTest is
 	-- Clock period definitions
    constant clk_period : time := 1 ns;
 	signal resetcounter : integer range 0 to 20 :=0;
+	signal collision : std_logic;
 begin
 	picker: GraphicsPicker PORT MAP (
 				clk => clk,
@@ -119,7 +133,16 @@ begin
           x => x,
           y => y
         );		
-
+	gpu: SpriteGpu PORT MAP (
+			clk => clk,
+			rst => rst,
+			x => x,
+			y => y,
+			spriteVgaRed=> spriteVgaRed,					
+			spriteVgaGreen=> spriteVgaGreen,
+			spriteVgaBlue=> spriteVgaBlue,
+			collision=> collision
+				);
   clk_process :process
   
    begin
