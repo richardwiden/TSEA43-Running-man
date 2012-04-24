@@ -55,6 +55,7 @@ signal sprite_brick : bit_array ;
 signal x_pos : integer := 100;
 signal y_pos : integer := 210;
 signal spriteSize : integer := 16;
+signal btnuPressed: std_logic;
 begin
 
 
@@ -78,10 +79,18 @@ sprite_brick(15) <= "1111111111111111";
 process(clk)
 begin
 	if rising_edge(clk) then
-		if btnu ='1' then
-			y_pos <= y_pos-1;
+		if btnu = '1' then
+			if(btnuPressed = '0') then
+				y_pos <= y_pos-1;
+			end if;
+			btnuPressed<='1';
 		elsif btnd='1' then
-			y_pos <= y_pos+1;
+			if(btnuPressed ='0') then
+				y_pos <= y_pos+1;
+			end if;
+			btnuPressed<='1';
+		else
+			btnuPressed<='0';
 		end if;
 		
 		if y>y_pos and y <= (y_pos+spriteSize) then
