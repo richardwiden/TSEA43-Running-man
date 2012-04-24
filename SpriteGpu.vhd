@@ -50,7 +50,9 @@ subtype elements is std_logic_vector(15 downto 0);
 type bit_array is array (0 to 15) of elements;
 signal sprite_brick : bit_array ;
 
-
+signal x_pos : integer := 100;
+signal y_pos : integer := 210;
+signal spriteSize : integer := 16;
 begin
 
 
@@ -74,9 +76,9 @@ sprite_brick(15) <= "1111111111111111";
 process(clk)
 begin
 	if rising_edge(clk) then
-		if(y>210 and y <= 226) then
-			if(x>100 and x <= 116) then
-				if sprite_brick( y - 210 )( x - 100 ) = '1' then
+		if y>y_pos and y <= (y_pos+spriteSize) then
+			if x> x_pos and x <= (x_pos+spriteSize) then
+				if sprite_brick( y - y_pos )( x - x_pos ) = '1' then
 					spriteVgaRed<="111";				
 					spriteVgaGreen<="111";
 					spriteVgaBlue<="11";

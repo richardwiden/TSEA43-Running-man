@@ -62,7 +62,7 @@ begin
 process(clk)
 begin
 if rising_edge(clk) then
-	if y>200 and y<480 then
+	if y>150 and y<480 then
 		if x<640 then
 			if spriteDetected = '1' then
 				vgaRed<=spriteVgaRed;	
@@ -73,12 +73,20 @@ if rising_edge(clk) then
 				vgaGreen<="101";
 				vgaBlue<="10";
 			end if;
+		else
+			vgaRed<="000";
+			vgaGreen<="000";
+			vgaBlue<="00";
 		end if;
-	elsif y<=200 then
+	elsif y<=150 then
 		if x<640 then
 			vgaRed<=tileVgaRed;	
 			vgaGreen<=tileVgaGreen;
-			vgaBlue<=tileVgaBlue;		
+			vgaBlue<=tileVgaBlue;	
+		else
+			vgaRed<="000";
+			vgaGreen<="000";
+			vgaBlue<="00";			
 		end if;
 	else
 		vgaRed<="000";
