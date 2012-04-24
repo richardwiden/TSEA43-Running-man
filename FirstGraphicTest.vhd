@@ -36,7 +36,9 @@ entity FirstGraphicTest is
          hsync : OUT  std_logic;
 			vgaRed: OUT  std_logic_vector(2 downto 0);					
 			vgaGreen: OUT  std_logic_vector(2 downto 0);		
-			vgaBlue: OUT  std_logic_vector(2 downto 1)		
+			vgaBlue: OUT  std_logic_vector(2 downto 1);
+			btnd: in std_logic;
+			btnu: in std_logic
         );
 end FirstGraphicTest;
 
@@ -59,7 +61,7 @@ architecture Behavioral of FirstGraphicTest is
          vgaRed: OUT  std_logic_vector(2 downto 0);					
 			vgaGreen: OUT  std_logic_vector(2 downto 0);		
 			vgaBlue: OUT  std_logic_vector(2 downto 1);
-			spriteDetected : in std_logic
+			spriteDetected : in std_logic			
         );
     END COMPONENT;
     
@@ -83,7 +85,10 @@ architecture Behavioral of FirstGraphicTest is
 				spriteVgaBlue: out  std_logic_vector(2 downto 1);
 				collision: out std_logic;
 				rst : in  STD_LOGIC;
-				spriteDetected : out std_logic);
+				spriteDetected : out std_logic;
+				btnd: in std_logic;
+				btnu: in std_logic
+				);
 
     END COMPONENT;
 
@@ -103,6 +108,7 @@ architecture Behavioral of FirstGraphicTest is
    signal x :  integer range 0 to 799 := 0 ;
 
 	signal spriteDetected : std_logic;
+
 
 	--signal clk : std_logic := '0';
 	signal rst : std_logic := '1';
@@ -145,7 +151,9 @@ begin
 			spriteVgaGreen	=> spriteVgaGreen,
 			spriteVgaBlue	=> spriteVgaBlue,
 			collision => collision,
-			spriteDetected =>spriteDetected
+			spriteDetected =>spriteDetected,
+			btnd => btnd,
+			btnu => btnu
 				);
   clk_process :process
   

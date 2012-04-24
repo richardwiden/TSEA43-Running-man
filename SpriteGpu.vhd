@@ -40,7 +40,9 @@ entity SpriteGpu is
 				spriteVgaBlue: out  std_logic_vector(2 downto 1);
 				collision: out std_logic;
 				spriteDetected: out std_logic;
-				rst : in  STD_LOGIC);
+				rst : in  STD_LOGIC;
+				btnd: in std_logic;
+				btnu: in std_logic);
 end SpriteGpu;
 
 
@@ -76,6 +78,12 @@ sprite_brick(15) <= "1111111111111111";
 process(clk)
 begin
 	if rising_edge(clk) then
+		if btnu ='1' then
+			y_pos <= y_pos-1;
+		elsif btnd='1' then
+			y_pos <= y_pos+1;
+		end if;
+		
 		if y>y_pos and y <= (y_pos+spriteSize) then
 			if x> x_pos and x <= (x_pos+spriteSize) then
 				if sprite_brick( y - y_pos )( x - x_pos ) = '1' then
