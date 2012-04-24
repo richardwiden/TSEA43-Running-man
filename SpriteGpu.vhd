@@ -50,7 +50,9 @@ architecture Behavioral of SpriteGpu is
 
 subtype elements is std_logic_vector(15 downto 0);
 type bit_array is array (0 to 15) of elements;
-signal sprite_brick : bit_array ;
+type gubb_array is array (0 to 31) of elements;
+type boxes_array is array (0 to 2) of bit_array;
+signal bitarna : boxes_array ;
 
 signal x_pos : integer := 100;
 signal y_pos : integer := 210;
@@ -59,22 +61,23 @@ signal btnuPressed: std_logic;
 begin
 
 
-sprite_brick( 0) <= "1111111111111111"; 
-sprite_brick( 1) <= "1001001001001001"; 
-sprite_brick( 2) <= "1010010010010011"; 
-sprite_brick( 3) <= "1100100100100101"; 
-sprite_brick( 4) <= "1001001001001001"; 
-sprite_brick( 5) <= "1010010010010011"; 
-sprite_brick( 6) <= "1100100100100101"; 
-sprite_brick( 7) <= "1001001001001001"; 
-sprite_brick( 8) <= "1010010010010011"; 
-sprite_brick( 9) <= "1100100100100101"; 
-sprite_brick(10) <= "1001001001001001"; 
-sprite_brick(11) <= "1010010010010011"; 
-sprite_brick(12) <= "1100100100100101"; 
-sprite_brick(13) <= "1001001001001001"; 
-sprite_brick(14) <= "1010010010010011"; 
-sprite_brick(15) <= "1111111111111111"; 
+bitarna( 0)( 0) <= "1111111111111111"; 
+bitarna(0)( 1) <= "1001001001001001"; 
+bitarna(0)( 2) <= "1010010010010011"; 
+bitarna(0)( 3) <= "1100100100100101"; 
+bitarna(0)( 4) <= "1001001001001001"; 
+bitarna(0)( 5) <= "1010010010010011"; 
+bitarna(0)( 6) <= "1100100100100101"; 
+bitarna(0)( 7) <= "1001001001001001"; 
+bitarna(0)( 8) <= "1010010010010011"; 
+bitarna(0)( 9) <= "1100100100100101"; 
+bitarna(0)(10) <= "1001001001001001"; 
+bitarna(0)(11) <= "1010010010010011"; 
+bitarna(0)(12) <= "1100100100100101"; 
+bitarna(0)(13) <= "1001001001001001"; 
+bitarna(0)(14) <= "1010010010010011"; 
+bitarna(0)(15) <= "1111111111111111";
+
 
 process(clk)
 begin
@@ -95,7 +98,7 @@ begin
 		
 		if y>y_pos and y <= (y_pos+spriteSize) then
 			if x> x_pos and x <= (x_pos+spriteSize) then
-				if sprite_brick( y - y_pos )( x - x_pos ) = '1' then
+				if bitarna(0)( y - y_pos )( x - x_pos ) = '1' then
 					spriteVgaRed<="111";				
 					spriteVgaGreen<="111";
 					spriteVgaBlue<="11";
