@@ -44,7 +44,8 @@ entity GraphicsPicker is
 		x : in  integer range 0 to 799;
 		vgaRed: OUT  std_logic_vector(2 downto 0);					
 		vgaGreen: OUT  std_logic_vector(2 downto 0);		
-		vgaBlue: OUT  std_logic_vector(2 downto 1)
+		vgaBlue: OUT  std_logic_vector(2 downto 1);
+		spriteDetected: in std_logic
 	);
 end GraphicsPicker;
 
@@ -63,9 +64,15 @@ begin
 if rising_edge(clk) then
 	if y>200 and y<480 then
 		if x<640 then
-			vgaRed<=spriteVgaRed;	
-			vgaGreen<=spriteVgaGreen;
-			vgaBlue<=spriteVgaBlue;		
+			if spriteDetected = '1' then
+				vgaRed<=spriteVgaRed;	
+				vgaGreen<=spriteVgaGreen;
+				vgaBlue<=spriteVgaBlue;		
+			else
+				vgaRed<="010";
+				vgaGreen<="101";
+				vgaBlue<="10";
+			end if;
 		end if;
 	elsif y<=200 then
 		if x<640 then

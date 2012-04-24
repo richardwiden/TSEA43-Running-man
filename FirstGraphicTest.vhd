@@ -58,7 +58,8 @@ architecture Behavioral of FirstGraphicTest is
          x : in integer range 0 to 799;
          vgaRed: OUT  std_logic_vector(2 downto 0);					
 			vgaGreen: OUT  std_logic_vector(2 downto 0);		
-			vgaBlue: OUT  std_logic_vector(2 downto 1)
+			vgaBlue: OUT  std_logic_vector(2 downto 1);
+			spriteDetected : in std_logic
         );
     END COMPONENT;
     
@@ -81,7 +82,8 @@ architecture Behavioral of FirstGraphicTest is
 				spriteVgaGreen: out  std_logic_vector(2 downto 0);		
 				spriteVgaBlue: out  std_logic_vector(2 downto 1);
 				collision: out std_logic;
-				rst : in  STD_LOGIC);
+				rst : in  STD_LOGIC;
+				spriteDetected : out std_logic);
 
     END COMPONENT;
 
@@ -93,14 +95,14 @@ architecture Behavioral of FirstGraphicTest is
 	signal tileVgaGreen:		std_logic_vector(2 downto 0) := (others => '0');	
 	signal tileVgaBlue:		std_logic_vector(2 downto 1) := (others => '1');
 	
-	signal spriteVgaRed:		std_logic_vector(2 downto 0) := (others => '0');				
-	signal spriteVgaGreen:	std_logic_vector(2 downto 0) := (others => '1');	
-	signal spriteVgaBlue:	std_logic_vector(2 downto 1) := (others => '0');
+	signal spriteVgaRed:		std_logic_vector(2 downto 0);				
+	signal spriteVgaGreen:	std_logic_vector(2 downto 0);	
+	signal spriteVgaBlue:	std_logic_vector(2 downto 1);
 	   
    signal y : 	integer range 0 to 520 := 0 ;
    signal x :  integer range 0 to 799 := 0 ;
 
-
+	signal spriteDetected : std_logic;
 
 	--signal clk : std_logic := '0';
 	signal rst : std_logic := '1';
@@ -112,17 +114,18 @@ architecture Behavioral of FirstGraphicTest is
 begin
 	picker: GraphicsPicker PORT MAP (
 				clk => clk,
-				tileVgaRed => tileVgaRed,					
-				tileVgaGreen =>tileVgaGreen,
-				tileVgaBlue => tileVgaBlue,
-				spriteVgaRed => spriteVgaRed,					
-				spriteVgaGreen =>spriteVgaGreen,
-				spriteVgaBlue => spriteVgaBlue,
+				tileVgaRed 		=> tileVgaRed,					
+				tileVgaGreen 	=> tileVgaGreen,
+				tileVgaBlue 	=> tileVgaBlue,
+				spriteVgaRed 	=> spriteVgaRed,					
+				spriteVgaGreen => spriteVgaGreen,
+				spriteVgaBlue 	=> spriteVgaBlue,
 				x => x,
 				y => y,
 				vgaRed => vgaRed,					
 				vgaGreen =>vgaGreen,
-				vgaBlue => vgaBlue
+				vgaBlue => vgaBlue,
+				spriteDetected =>spriteDetected
         );
 		  
 	raknare: sraknare PORT MAP (
@@ -138,10 +141,11 @@ begin
 			rst => rst,
 			x => x,
 			y => y,
-			spriteVgaRed=> spriteVgaRed,					
-			spriteVgaGreen=> spriteVgaGreen,
-			spriteVgaBlue=> spriteVgaBlue,
-			collision=> collision
+			spriteVgaRed	=> spriteVgaRed,					
+			spriteVgaGreen	=> spriteVgaGreen,
+			spriteVgaBlue	=> spriteVgaBlue,
+			collision => collision,
+			spriteDetected =>spriteDetected
 				);
   clk_process :process
   
