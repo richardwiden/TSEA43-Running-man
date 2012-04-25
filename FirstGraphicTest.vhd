@@ -111,7 +111,8 @@ architecture Behavioral of FirstGraphicTest is
          clk : IN  std_logic;
          rst : IN  std_logic;
          score : INOUT  std_logic_vector(32 downto 0);
-         frame : OUT  std_logic
+         frame : OUT  std_logic;
+			put_block : out std_logic
         );
     END COMPONENT;
 
@@ -135,7 +136,7 @@ architecture Behavioral of FirstGraphicTest is
 	signal jump : std_logic;
 	signal duck : std_logic;
 	
-	signal put_box: std_logic :='1';
+	signal put_box: std_logic;
 	signal next_box:  std_logic :='1';
 	
 	signal score : STD_LOGIC_VECTOR (32 downto 0);
@@ -203,7 +204,8 @@ begin
           clk => clk,
           rst => rst,
           score => score,
-          frame => frame
+          frame => frame,
+			 put_block => put_box
         );
   clk_process :process
   

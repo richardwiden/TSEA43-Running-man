@@ -186,7 +186,7 @@ begin
 			end if;
 			detected :=false;		
 			
-			if put_box = '0' then
+			if put_box = '1' then
 				 if x_pos(0) = 0 then
 					x_pos(0) <= 800;
 					if next_box ='1' then
@@ -214,6 +214,8 @@ begin
 				for i in 2 downto 0 loop
 					if x_pos(i)>0 then
 						x_pos(i) <= x_pos(i) -1;
+					else
+						x_pos(i) <= 800;
 					end if;
 				end loop;
 			end if;
