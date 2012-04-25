@@ -41,8 +41,8 @@ entity SpriteGpu is
 				collision: out std_logic;
 				spriteDetected: out std_logic;
 				rst : in  STD_LOGIC;
-				btnd: in std_logic;
-				btnu: in std_logic);
+				jump: in std_logic;
+				duck: in std_logic);
 end SpriteGpu;
 
 
@@ -52,7 +52,7 @@ subtype elements is std_logic_vector(15 downto 0);
 type bit_array is array (0 to 15) of elements;
 type gubb_array is array (0 to 31) of elements;
 subtype test is integer  range 0 to 799;
-type position is array (0 to 3) of test;
+type position is array (0 to 7) of test;
 signal sprite_brick : bit_array ;
 signal sprite_gubbe:  gubb_array;
 
@@ -63,9 +63,9 @@ signal spriteSize : integer := 16;
 signal gubbSize : integer := 32;
 signal btnuPressed: std_logic;
 begin
-y_pos(0) <= 210;
-x_pos(0) <= 100;
-
+x_pos(0) <= 200;
+x_pos(1) <= 218;
+x_pos(2) <= 236;
 sprite_brick( 0) <= "1111111111111111"; 
 sprite_brick( 1) <= "1001001001001001"; 
 sprite_brick( 2) <= "1010010010010011"; 
@@ -117,38 +117,51 @@ sprite_gubbe(30) <= "1111111000111111";
 sprite_gubbe(31) <= "1111111000111111";
 
 process(clk)
+variable gubbe: integer :=3;
 begin
 	if rising_edge(clk) then
-		if btnu = '1' then
-			if(btnuPressed = '0') then
-				y_pos(0) <= y_pos(0)-1;
-			end if;
-			btnuPressed<='1';
-		elsif btnd='1' then
-			if(btnuPressed ='0') then
-				y_pos(0) <= y_pos(0)+1;
-			end if;
-			btnuPressed<='1';
+		
+		if(jump='1') then
+			y_pos(gubbe) <= 150;
+		elsif(duck='1') then
+			y_pos(gubbe) <= 250;
 		else
-			btnuPressed<='0';
+			y_pos(gubbe) <= 200;
 		end if;
 		
-		if y>y_pos(0) and y <= (y_pos(0)+spriteSize) then
-			if x> x_pos(0) and x <= (x_pos(0)+spriteSize) then
-				if sprite_brick( y - y_pos(0) )( x - x_pos(0) ) = '1' then
-					spriteVgaRed<="111";				
-					spriteVgaGreen<="111";
-					spriteVgaBlue<="11";
-					spriteDetected<='1';
-				else
-					spriteDetected<='0';
-				end if;
+		spriteDetected<='0';
+		
+
+		for i in 2 downto 0 loop
+			if y_pos(i) = 0 or x_pos(i) = 0 then
+				y_pos(i) <= 0;				
 			else
-				spriteDetected<='0';	
-			end if;	
-		else
-			spriteDetected<='0';
-		end if;	
+				if y>=y_pos(i) and y < (y_pos(i)+gubbSize) then
+					if x>= x_pos(i) and x < (x_pos(i)+spriteSize) then
+						if sprite_gubbe( y - y_pos(i) )( x - x_pos(i) ) = '1' then
+							spriteVgaRed<="111";				
+							spriteVgaGreen<="101";
+							spriteVgaBlue<="11";
+							spriteDetected<='1';						
+						end if;					
+					end if;					
+				end if;
+			end if;			
+		end loop;
+		
+		if y>=y_pos(gubbe) and y < (y_pos(gubbe)+spriteSize) then
+			if x>= x_pos(gubbe) and x < (x_pos(gubbe)+spriteSize) then
+				if sprite_brick( y - y_pos(gubbe) )( x - x_pos(gubbe) ) = '1' then
+					spriteVgaRed<="111";				
+					spriteVgaGreen<="101";
+					spriteVgaBlue<="00";
+					spriteDetected<='1';						
+				end if;					
+			end if;					
+		end if;
+				
+		
+		
 	end if;
 end process;
 

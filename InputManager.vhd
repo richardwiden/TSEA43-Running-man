@@ -32,8 +32,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --use UNISIM.VComponents.all;
 
 entity InputManager is
-    Port ( up_pressed : in  STD_LOGIC;
-           down_pressed : in  STD_LOGIC;
+    Port ( 	btnd: in std_logic;
+				btnu: in std_logic;
            jump : out  STD_LOGIC;
            duck : out  STD_LOGIC;
            rst : out  STD_LOGIC;
@@ -49,29 +49,24 @@ process(clk)
 begin
 
 if rising_edge(clk) then
-	if button_pressed ='1' then
-		counter1024 <= counter1024 + 1;
-		if counter1024 = "1111111111" then
-			button_pressed<='0';
-			jump<='0';
-			rst<='0';
-			duck<='0';
+		if btnu = '1' and counter1024 ="0000000000" then
+			jump <='1';
+			counter1024 <=counter1024+1;			
+		elsif btnd='1' and counter1024 ="0000000000" then
+			duck <= '1';
+			counter1024 <=counter1024+1;
+		else
+			if counter1024 = "1111111111" then
+				jump <='0';
+				duck <='0';
+				counter1024 <= "0000000000";
+			elsif counter1024 = "0000000000" then
+				counter1024 <=counter1024;
+			else			
+				counter1024 <= counter1024+1;
+			end if;
 		end if;
-	else
-		if up_pressed ='1' and down_pressed='1' then
-			rst<='1';
-			button_pressed<='1';
-			counter1024<="0000000000";
-		elsif up_pressed ='1' then
-			button_pressed<='1';
-			jump<='1';
-			counter1024<="0000000000";
-		elsif down_pressed='1' then			
-			button_pressed<='1';
-			duck<='1';			
-			counter1024<="0000000000";
-		end if;
-	end if;
+	
 end if;
 end process;
 end Behavioral;

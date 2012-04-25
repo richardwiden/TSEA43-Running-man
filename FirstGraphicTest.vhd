@@ -86,11 +86,24 @@ architecture Behavioral of FirstGraphicTest is
 				collision: out std_logic;
 				rst : in  STD_LOGIC;
 				spriteDetected : out std_logic;
-				btnd: in std_logic;
-				btnu: in std_logic
+				jump: in std_logic;
+				duck: in std_logic
 				);
 
     END COMPONENT;
+	 
+	 COMPONENT InputManager
+    PORT(
+         btnd: in std_logic;
+			btnu: in std_logic;
+         jump : OUT  std_logic;
+         duck : OUT  std_logic;
+         rst : in  std_logic;
+         clk : IN  std_logic
+        );
+    END COMPONENT;
+	 
+	 
 
 
    --Inputs   
@@ -108,7 +121,9 @@ architecture Behavioral of FirstGraphicTest is
    signal x :  integer range 0 to 799 := 0 ;
 
 	signal spriteDetected : std_logic;
-
+	
+	signal jump : std_logic;
+	signal duck : std_logic;
 
 	--signal clk : std_logic := '0';
 	signal rst : std_logic := '1';
@@ -152,9 +167,18 @@ begin
 			spriteVgaBlue	=> spriteVgaBlue,
 			collision => collision,
 			spriteDetected =>spriteDetected,
-			btnd => btnd,
-			btnu => btnu
+			jump => jump,
+			duck => duck
 				);
+				
+	input: InputManager PORT MAP (
+          btnu => btnu,
+          btnd => btnd,
+          jump => jump,
+          duck => duck,
+          rst => rst,
+          clk => clk
+        );
   clk_process :process
   
    begin

@@ -41,8 +41,8 @@ ARCHITECTURE behavior OF TestInput IS
  
     COMPONENT InputManager
     PORT(
-         up_pressed : IN  std_logic;
-         down_pressed : IN  std_logic;
+         btnd: in std_logic;
+			btnu: in std_logic;
          jump : OUT  std_logic;
          duck : OUT  std_logic;
          rst : OUT  std_logic;
@@ -52,8 +52,8 @@ ARCHITECTURE behavior OF TestInput IS
     
 
    --Inputs
-   signal up_pressed : std_logic := '0';
-   signal down_pressed : std_logic := '0';
+   signal btnu : std_logic := '0';
+   signal btnd : std_logic := '0';
    signal clk : std_logic := '0';
 
  	--Outputs
@@ -68,8 +68,8 @@ BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
    uut: InputManager PORT MAP (
-          up_pressed => up_pressed,
-          down_pressed => down_pressed,
+          btnu => btnu,
+          btnd => btnd,
           jump => jump,
           duck => duck,
           rst => rst,
@@ -92,21 +92,21 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;	
 		
-		up_pressed <='1';
+		btnu <='1';
       wait for clk_period*10;
-		up_pressed <='0';
+		btnu <='0';
 		wait for 1500 ns;
 		
-		down_pressed <='1';
+		btnd <='1';
       wait for clk_period*10;
-		down_pressed <='0';
+		btnd <='0';
 		wait for 1500 ns;
 	
-		down_pressed <='1';
-		up_pressed <='1';
+		btnd <='1';
+		btnu <='1';
       wait for clk_period*10;
-		down_pressed <='0';
-		up_pressed <='0';
+		btnd <='0';
+		btnu <='0';
 		wait for 1500 ns;
 
       -- insert stimulus here 
