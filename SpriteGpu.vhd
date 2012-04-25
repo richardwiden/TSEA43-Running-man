@@ -178,7 +178,7 @@ begin
 			x_pos(2) <= 600;
 		else		
 			if(jump='1') then
-				y_pos(gubbe) <= 178;
+				y_pos(gubbe) <= 168;
 			elsif(duck='1') then
 				y_pos(gubbe) <= 232;
 			else
