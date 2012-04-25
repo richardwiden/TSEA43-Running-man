@@ -186,7 +186,7 @@ begin
 			end if;
 			detected :=false;		
 			
-			if put_box = '1' then
+			if put_box = '0' then
 				 if x_pos(0) = 0 then
 					x_pos(0) <= 800;
 					if next_box ='1' then
