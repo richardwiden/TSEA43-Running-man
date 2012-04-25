@@ -110,7 +110,7 @@ architecture Behavioral of FirstGraphicTest is
     PORT(
          clk : IN  std_logic;
          rst : IN  std_logic;
-         score : INOUT  std_logic_vector(32 downto 0);
+         score : INOUT  std_logic_vector(31 downto 0);
          frame : OUT  std_logic;
 			put_block : out std_logic
         );
@@ -139,7 +139,7 @@ architecture Behavioral of FirstGraphicTest is
 	signal put_box: std_logic;
 	signal next_box:  std_logic :='1';
 	
-	signal score : STD_LOGIC_VECTOR (32 downto 0);
+	signal score : STD_LOGIC_VECTOR (31 downto 0);
 	signal frame : std_logic;
 
 	--signal clk : std_logic := '0';
