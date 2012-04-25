@@ -66,6 +66,7 @@ begin
 x_pos(0) <= 200;
 x_pos(1) <= 218;
 x_pos(2) <= 236;
+spriteDetected <=0;
 sprite_brick( 0) <= "1111111111111111"; 
 sprite_brick( 1) <= "1001001001001001"; 
 sprite_brick( 2) <= "1010010010010011"; 
@@ -118,6 +119,8 @@ sprite_gubbe(31) <= "1111111000111111";
 
 process(clk)
 variable gubbe: integer :=3;
+variable detected: boolean := false;
+variable collisionDetected: boolean := false;
 begin
 	if rising_edge(clk) then
 		
@@ -129,8 +132,7 @@ begin
 			y_pos(gubbe) <= 200;
 		end if;
 		
-		spriteDetected<='0';
-		
+		detected :=false;				
 
 		for i in 2 downto 0 loop
 			if y_pos(i) = 0 or x_pos(i) = 0 then
@@ -142,7 +144,7 @@ begin
 							spriteVgaRed<="111";				
 							spriteVgaGreen<="101";
 							spriteVgaBlue<="11";
-							spriteDetected<='1';						
+							detected:= true;
 						end if;					
 					end if;					
 				end if;
@@ -155,12 +157,25 @@ begin
 					spriteVgaRed<="111";				
 					spriteVgaGreen<="101";
 					spriteVgaBlue<="00";
-					spriteDetected<='1';						
+					if detected = true then
+						collisionDetected := true;
+					end if;
+					detected:= true;
 				end if;					
 			end if;					
 		end if;
 				
+		if detected = true then
+			spriteDetected <= '1';
+		else
+			spriteDetected <= '0';
+		end if;
 		
+		if collisionDetected = true then
+			collision <='1';
+			else
+			collision <='0';
+		end if;
 		
 	end if;
 end process;

@@ -36,7 +36,7 @@ entity InputManager is
 				btnu: in std_logic;
            jump : out  STD_LOGIC;
            duck : out  STD_LOGIC;
-           rst : out  STD_LOGIC;
+           rst : in  STD_LOGIC;
            clk : in  STD_LOGIC);
 end InputManager;
 
