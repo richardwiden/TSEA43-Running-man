@@ -87,7 +87,10 @@ architecture Behavioral of FirstGraphicTest is
 				rst : in  STD_LOGIC;
 				spriteDetected : out std_logic;
 				jump: in std_logic;
-				duck: in std_logic
+				duck: in std_logic;
+				move_box: in std_logic;
+				put_box: in std_logic;
+				next_box: in std_logic
 				);
 
     END COMPONENT;
