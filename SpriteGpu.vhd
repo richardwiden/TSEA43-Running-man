@@ -66,8 +66,7 @@ begin
 x_pos(0) <= 200;
 x_pos(1) <= 218;
 x_pos(2) <= 236;
-spriteDetected <='0';
-collision <='0';
+
 sprite_brick( 0) <= "1111111111111111"; 
 sprite_brick( 1) <= "1001001001001001"; 
 sprite_brick( 2) <= "1010010010010011"; 
