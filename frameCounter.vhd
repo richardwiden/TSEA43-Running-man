@@ -53,12 +53,12 @@ if rising_edge(clk) then
 		speed <= "000000000000010000000000000000000";
 		put_block <= '0';
 		
-		time_counter <= "000000010000000000000000000000000";
+		time_counter <= "000000100000000000000000000000000";
 	else
 		counter_frame<=counter_frame + 1;	
 		time_counter <= time_counter -1;
 		if time_counter = "000000000000000000000000000000000" then
-			time_counter <= "000000010000000000000000000000000";
+			time_counter <= "000000100000000000000000000000000";
 			put_block <='1';
 		else
 			put_block <='0';
