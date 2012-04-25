@@ -42,25 +42,30 @@ end InputManager;
 
 architecture Behavioral of InputManager is
 signal button_pressed : STD_LOGIC:='0';
-signal counter1024 :  STD_LOGIC_VECTOR (9 downto 0):="0000000000";
+signal action : std_logic :='0';
+signal counter1024 :  STD_LOGIC_VECTOR (31 downto 0):="00000000000000000000000000000000";
 begin
 
 process(clk)
 begin
 
 if rising_edge(clk) then
-		if btnu = '1' and counter1024 ="0000000000" then
+		if action = '1' and counter1024 = "00000100000000000000000000000000" then
+			action <= '0';
+			counter1024 <= "00000000000000000000000000000000";
+		elsif action = '0' and btnu = '1' and counter1024 ="00000000000000000000000000000000" then
 			jump <='1';
 			counter1024 <=counter1024+1;			
-		elsif btnd='1' and counter1024 ="0000000000" then
+		elsif action = '0' and btnd='1' and counter1024 ="00000000000000000000000000000000" then
 			duck <= '1';
 			counter1024 <=counter1024+1;
 		else
-			if counter1024 = "1111111111" then
+			if counter1024 = "00001000000000000000000000000000" then
 				jump <='0';
 				duck <='0';
-				counter1024 <= "0000000000";
-			elsif counter1024 = "0000000000" then
+				action <= '1';
+				counter1024 <= "00000000000000000000000000000001";
+			elsif counter1024 = "00000000000000000000000000000000" then
 				counter1024 <=counter1024;
 			else			
 				counter1024 <= counter1024+1;
