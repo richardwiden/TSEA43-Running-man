@@ -213,6 +213,7 @@ begin
 		if frame ='1' then
 			for i in 2 downto 0 loop
 				if x_pos(i)>0 then
+					x_pos(i) <= x_pos(i) -1;
 				end if;
 			end loop;
 		end if;
