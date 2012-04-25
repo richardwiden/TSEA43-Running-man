@@ -28,10 +28,11 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 entity frameCounter is
-	Port ( clk : in  STD_LOGIC;
+	Port ( 
+			clk : in  STD_LOGIC;
        	rst : in  STD_LOGIC;
        	score : inout  STD_LOGIC_VECTOR (32 downto 0);
- 	frame : out  STD_LOGIC
+			frame : out  STD_LOGIC
 	);
 end frameCounter;
 architecture Behavioral of frameCounter is
@@ -42,16 +43,14 @@ begin
 process(clk)
 begin
 if rising_edge(clk) then
- if(rst='1') then
-  score<="000111011100110101100101000000000"; --1 000 000 000
-  frame<='0';
-  counter_speed<="000000000000000000000000000000000";
-  counter_frame<="000000000000000000000000000000000";
-  speed<="000000010011000100101101000000000";
- end if;
- 
- if(rst='0') then
- 
+	if(rst='1') then
+		score<="000111011100110101100101000000000"; --1 000 000 000
+		frame<='0';
+		counter_speed<="000000000000000000000000000000000";
+		counter_frame<="000000000000000000000000000000000";
+		speed<="000000010011000100101101000000000";
+	end if; 
+ if(rst='0') then 
   counter_speed<=counter_speed + 1;
   counter_frame<=counter_frame + 1;
   if (counter_speed=score) then

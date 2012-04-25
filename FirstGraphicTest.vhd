@@ -106,7 +106,14 @@ architecture Behavioral of FirstGraphicTest is
         );
     END COMPONENT;
 	 
-	 
+	 COMPONENT frameCounter
+    PORT(
+         clk : IN  std_logic;
+         rst : IN  std_logic;
+         score : INOUT  std_logic_vector(32 downto 0);
+         frame : OUT  std_logic
+        );
+    END COMPONENT;
 
 
    --Inputs   
@@ -127,6 +134,12 @@ architecture Behavioral of FirstGraphicTest is
 	
 	signal jump : std_logic;
 	signal duck : std_logic;
+	
+	signal put_box: std_logic :='1';
+	signal next_box:  std_logic :='1';
+	
+	signal score : std_logic;
+	signal frame : std_logic;
 
 	--signal clk : std_logic := '0';
 	signal rst : std_logic := '1';
@@ -171,7 +184,10 @@ begin
 			collision => collision,
 			spriteDetected =>spriteDetected,
 			jump => jump,
-			duck => duck
+			duck => duck,
+			new_box => frame,
+			put_box => put_box,
+			next_box => next_box
 				);
 				
 	input: InputManager PORT MAP (
@@ -181,6 +197,13 @@ begin
           duck => duck,
           rst => rst,
           clk => clk
+        );
+  
+  frame: frameCounter PORT MAP (
+          clk => clk,
+          rst => rst,
+          score => score,
+          frame => frame
         );
   clk_process :process
   

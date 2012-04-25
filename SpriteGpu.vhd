@@ -209,7 +209,13 @@ begin
 			 end if;
 		end if;
 		
-		detected :=false;				
+		detected :=false;			
+		if frame ='1' then
+			for i in 2 downto 0 loop
+				if x_pos(i)>0 then
+				end if;
+			end loop;
+		end if;
 
 		for i in 2 downto 0 loop
 			if y_pos(i) = 0 or x_pos(i) = 0 then
