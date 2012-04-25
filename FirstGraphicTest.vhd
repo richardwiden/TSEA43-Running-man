@@ -138,7 +138,7 @@ architecture Behavioral of FirstGraphicTest is
 	signal put_box: std_logic :='1';
 	signal next_box:  std_logic :='1';
 	
-	signal score : std_logic;
+	signal score : STD_LOGIC_VECTOR (32 downto 0);
 	signal frame : std_logic;
 
 	--signal clk : std_logic := '0';
@@ -185,7 +185,7 @@ begin
 			spriteDetected =>spriteDetected,
 			jump => jump,
 			duck => duck,
-			new_box => frame,
+			move_box => frame,
 			put_box => put_box,
 			next_box => next_box
 				);
@@ -199,7 +199,7 @@ begin
           clk => clk
         );
   
-  frame: frameCounter PORT MAP (
+  frameCounteruuu: frameCounter PORT MAP (
           clk => clk,
           rst => rst,
           score => score,

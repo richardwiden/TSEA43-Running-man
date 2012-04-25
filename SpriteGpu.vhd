@@ -185,32 +185,32 @@ begin
 		
 		if put_box = '1' then
 			 if x_pos(0) = 0 then
-				x_pos(0) := 800;
+				x_pos(0) <= 800;
 				if next_box ='1' then
-					y_pos(0) := 200;
+					y_pos(0) <= 200;
 				else
-					y_pos(0) := 232;
+					y_pos(0) <= 232;
 				end if;
 			 elsif x_pos(1) = 0 then
-				x_pos(1) := 800;
+				x_pos(1) <= 800;
 				if next_box ='1' then
-					y_pos(1) := 200;
+					y_pos(1) <= 200;
 				else
-					y_pos(1) := 232;
+					y_pos(1) <= 232;
 				end if;
 			 elsif x_pos(2) = 0 then
-				x_pos(2) := 800;
+				x_pos(2) <= 800;
 				if next_box ='1' then
-					y_pos(2) := 200;
+					y_pos(2) <= 200;
 				else
-					y_pos(2) := 232;
+					y_pos(2) <= 232;
 				end if;
 			 else
 			 end if;
 		end if;
 		
 		detected :=false;			
-		if frame ='1' then
+		if move_box ='1' then
 			for i in 2 downto 0 loop
 				if x_pos(i)>0 then
 					x_pos(i) <= x_pos(i) -1;
