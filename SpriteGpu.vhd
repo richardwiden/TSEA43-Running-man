@@ -54,7 +54,7 @@ architecture Behavioral of SpriteGpu is
 subtype elements is std_logic_vector(31 downto 0);
 type bit_array is array (0 to 31) of elements;
 type gubb_array is array (0 to 64) of elements;
-subtype test is integer  range 0 to 799;
+subtype test is integer  range 0 to 800;
 type position is array (0 to 7) of test;
 signal sprite_brick : bit_array ;
 signal sprite_gubbe:  gubb_array;
@@ -66,9 +66,7 @@ signal spriteSize : integer := 32;
 signal gubbSize : integer := 64;
 signal btnuPressed: std_logic;
 begin
-x_pos(0) <= 0;
-x_pos(1) <= 300;
-x_pos(2) <= 600;
+
 
 sprite_brick( 0) <= "11111111111111111111111111111111"; 
 sprite_brick( 1) <= "10010010010010000100100100100101"; 
@@ -174,54 +172,54 @@ variable detected: boolean := false;
 variable collisionDetected: boolean := false;
 begin
 	if rising_edge(clk) then
-		
-		if(jump='1') then
-			y_pos(gubbe) <= 178;
-		elsif(duck='1') then
-			y_pos(gubbe) <= 232;
-		else
-			y_pos(gubbe) <= 200;
-		end if;
-		
-		if put_box = '1' then
-			 if x_pos(0) = 0 then
-				x_pos(0) <= 800;
-				if next_box ='1' then
-					y_pos(0) <= 200;
-				else
-					y_pos(0) <= 232;
-				end if;
-			 elsif x_pos(1) = 0 then
-				x_pos(1) <= 800;
-				if next_box ='1' then
-					y_pos(1) <= 200;
-				else
-					y_pos(1) <= 232;
-				end if;
-			 elsif x_pos(2) = 0 then
-				x_pos(2) <= 800;
-				if next_box ='1' then
-					y_pos(2) <= 200;
-				else
-					y_pos(2) <= 232;
-				end if;
-			 else
-			 end if;
-		end if;
-		
-		detected :=false;			
-		if move_box ='1' then
-			for i in 2 downto 0 loop
-				if x_pos(i)>0 then
-					x_pos(i) <= x_pos(i) -1;
-				end if;
-			end loop;
-		end if;
-
-		for i in 2 downto 0 loop
-			if y_pos(i) = 0 or x_pos(i) = 0 then
-				y_pos(i) <= 0;				
+		if rst ='1' then
+			x_pos(0) <= 0;
+			x_pos(1) <= 300;
+			x_pos(2) <= 600;
+		else		
+			if(jump='1') then
+				y_pos(gubbe) <= 178;
+			elsif(duck='1') then
+				y_pos(gubbe) <= 232;
 			else
+				y_pos(gubbe) <= 200;
+			end if;
+			detected :=false;		
+			
+			if put_box = '1' then
+				 if x_pos(0) = 0 then
+					x_pos(0) <= 800;
+					if next_box ='1' then
+						y_pos(0) <= 200;
+					else
+						y_pos(0) <= 232;
+					end if;
+				 elsif x_pos(1) = 0 then
+					x_pos(1) <= 800;
+					if next_box ='1' then
+						y_pos(1) <= 200;
+					else
+						y_pos(1) <= 232;
+					end if;
+				 elsif x_pos(2) = 0 then
+					x_pos(2) <= 800;
+					if next_box ='1' then
+						y_pos(2) <= 200;
+					else
+						y_pos(2) <= 232;
+					end if;
+				 else
+				 end if;
+			elsif move_box ='1' then
+				for i in 2 downto 0 loop
+					if x_pos(i)>0 then
+						x_pos(i) <= x_pos(i) -1;
+					end if;
+				end loop;
+			end if;
+
+			for i in 2 downto 0 loop
+			
 				if y>=y_pos(i) and y < (y_pos(i)+spriteSize) then
 					if x>= x_pos(i) and x < (x_pos(i)+spriteSize) then
 						if sprite_brick( y - y_pos(i) )( x - x_pos(i) ) = '1' then
@@ -232,35 +230,35 @@ begin
 						end if;					
 					end if;					
 				end if;
-			end if;			
-		end loop;
-		
-		if y>=y_pos(gubbe) and y < (y_pos(gubbe)+gubbSize) then
-			if x>= x_pos(gubbe) and x < (x_pos(gubbe)+spriteSize) then
-				if sprite_gubbe( y - y_pos(gubbe) )( x - x_pos(gubbe) ) = '1' then
-					spriteVgaRed<="111";				
-					spriteVgaGreen<="101";
-					spriteVgaBlue<="00";
-					if detected = true then
-						collisionDetected := true;
-					end if;
-					detected:= true;
+						
+			end loop;
+			
+			if y>=y_pos(gubbe) and y < (y_pos(gubbe)+gubbSize) then
+				if x>= x_pos(gubbe) and x < (x_pos(gubbe)+spriteSize) then
+					if sprite_gubbe( y - y_pos(gubbe) )( x - x_pos(gubbe) ) = '1' then
+						spriteVgaRed<="111";				
+						spriteVgaGreen<="101";
+						spriteVgaBlue<="00";
+						if detected = true then
+							collisionDetected := true;
+						end if;
+						detected:= true;
+					end if;					
 				end if;					
-			end if;					
-		end if;
-				
-		if detected = true then
-			spriteDetected <= '1';
-		else
-			spriteDetected <= '0';
-		end if;
-		
-		if collisionDetected = true then
-			collision <='1';
+			end if;
+					
+			if detected = true then
+				spriteDetected <= '1';
 			else
-			collision <='0';
+				spriteDetected <= '0';
+			end if;
+			
+			if collisionDetected = true then
+				collision <='1';
+				else
+				collision <='0';
+			end if;
 		end if;
-		
 	end if;
 end process;
 
