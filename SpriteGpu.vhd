@@ -214,8 +214,6 @@ begin
 				for i in 2 downto 0 loop
 					if x_pos(i)>0 then
 						x_pos(i) <= x_pos(i) -1;
-					else
-						x_pos(i) <= 800;
 					end if;
 				end loop;
 			end if;
