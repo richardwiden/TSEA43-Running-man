@@ -410,6 +410,11 @@ begin
 						counter(1)<=0;
 						if counter(2)=9 then
 							counter(2)<=0;
+							if counter(3)=9 then
+								counter(3) <= 0;
+							else
+								counter(3) <= counter(3) +1;
+							end if;
 						else
 							counter(2) <= counter(2) +1;
 						end if;
@@ -441,43 +446,31 @@ begin
 															
 			if y >= 0 and y < 32 then
 				if x >= 0 and x <  32 then
-					if tile_number(counter(2))(y)(32-(x-0)) = '0' then
+					if tile_number(counter(3))(y)(32-(x-0)) = '0' then
 						paint:=true;
 					else
 						paint:=false;
 					end if;
 				elsif x >= 32 and x <  64 then
-					if tile_number(counter(1))(y)(32-(x-32)) = '0' then
+					if tile_number(counter(2))(y)(32-(x-32)) = '0' then
 						paint:=true;
 					else
 						paint:=false;
 					end if;
 				elsif x >= 64 and x <  96 then
-					if tile_number(counter(0))(y)(32-(x-64)) = '0' then
+					if tile_number(counter(1))(y)(32-(x-64)) = '0' then
+						paint:=true;
+					else
+						paint:=false;
+					end if;
+				elsif x >= 96 and x <  128 then
+					if tile_number(counter(0))(y)(32-(x-96)) = '0' then
 						paint:=true;
 					else
 						paint:=false;
 					end if;
 				else
-					paint:=false;
---				elsif x >= 96 and x <  128 then				
---					if tile_number(counter(2))(y)(x-96) = '0' then
---						paint:=true;
---					else
---						paint:=false;
---					end if;
---				elsif x >= 128 and x <  160 then
---					if tile_number(counter(1))(y)(x-128) = '0' then
---						paint:=true;
---					else
---						paint:=false;
---					end if;
---				elsif x >= 160 and x <  192 then
---					if tile_number(counter(0))(y)(x-160) = '0' then
---						paint:=true;
---					else
---						paint:=false;
---					end if;					
+					paint:=false;			
 				end if;							
 			else
 				paint:=false;
