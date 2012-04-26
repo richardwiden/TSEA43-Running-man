@@ -34,7 +34,8 @@ entity frameCounter is
        	score : inout  STD_LOGIC_VECTOR (31 downto 0);
 			frame : out  STD_LOGIC;
 			put_block : out std_logic;
-			game_frozen: in std_logic
+			game_frozen: in std_logic;
+			split_legs: out std_logic
 	);
 end frameCounter;
 architecture Behavioral of frameCounter is
@@ -82,7 +83,8 @@ if rising_edge(clk) then
 				end if;
 				counter_speed <="00000000000000000000000000000000";
 			else
-				counter_speed<=counter_speed+1;
+				counter_speed<=counter_speed+1;		
+				split_legs <= counter_speed(5);
 			end if;
 			
 			

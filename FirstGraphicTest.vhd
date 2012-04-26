@@ -91,7 +91,8 @@ architecture Behavioral of FirstGraphicTest is
 			duck: in std_logic;
 			move_box: in std_logic;
 			put_box: in std_logic;
-			next_box: in std_logic
+			next_box: in std_logic;
+			split_legs: in std_logic
 		);
 	END COMPONENT;
 
@@ -115,7 +116,8 @@ architecture Behavioral of FirstGraphicTest is
 			score : INOUT  std_logic_vector(31 downto 0);
 			frame : OUT  std_logic;
 			put_block : out std_logic;
-			game_frozen: in std_logic
+			game_frozen: in std_logic;
+			split_legs: out std_logic
 		);
 	END COMPONENT;
 	
@@ -147,6 +149,8 @@ architecture Behavioral of FirstGraphicTest is
    signal x :  integer range 0 to 799 := 0 ;
 	
 	signal scorecounter : integer range 0 to 16;
+	
+	signal split_legs : std_logic;
 	
 	signal game_frozen: std_logic;
 
@@ -211,7 +215,8 @@ begin
 		duck => duck,
 		move_box => frame,
 		put_box => put_box,
-		next_box => next_box
+		next_box => next_box,
+		split_legs => split_legs
 	);
 	
 	tileGpuuuu: TileGpu PORT MAP (
@@ -242,7 +247,8 @@ begin
 		score => score,
 		frame => frame,
 		put_block => put_box,
-		game_frozen => game_frozen
+		game_frozen => game_frozen,
+		split_legs => split_legs
 	);
 
 process(clk)
