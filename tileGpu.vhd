@@ -45,7 +45,7 @@ end TileGpu;
 
 
 architecture Behavioral of TileGpu is
-subtype heltal is integer  range -1 to 9;
+subtype heltal is integer  range 0 to 9;
 type counter_type is array (0 to 5) of heltal;
 
 
@@ -57,6 +57,39 @@ signal tile_number : number_array ;
 signal counter: counter_type;
 
 begin
+tile_number (0)( 0)	<=	"11111111111111111111111111111111";
+tile_number (0)( 1)	<=	"11111111111111111111111111111111";
+tile_number (0)( 2)	<=	"11111111111111111111111111111111";
+tile_number (0)( 3)	<=	"11111111111111111111111111111111";
+tile_number (0)( 4)	<=	"11111111111000000011111111111111";
+tile_number (0)( 5)	<=	"11111111111000000001111111111111";
+tile_number (0)( 6)	<=	"11111111110000000000011111111111";
+tile_number (0)( 7)	<=	"11111111100001111100001111111111";
+tile_number (0)( 8)	<=	"11111111000001111100001111111111";
+tile_number (0)( 9)	<=	"11111111100001111100000111111111";
+tile_number (0)(10)	<=	"11111111000001111100000111111111";
+tile_number (0)(11)	<=	"11111111000001111100000111111111";
+tile_number (0)(12)	<=	"11111111000001111100000111111111";
+tile_number (0)(13)	<=	"11111111000001111100000111111111";
+tile_number (0)(14)	<=	"11111110000001111100000011111111";
+tile_number (0)(15)	<=	"11111110000001111100000011111111";
+tile_number (0)(16)	<=	"11111110000001111100000011111111";
+tile_number (0)(17)	<=	"11111110000001111100000011111111";
+tile_number (0)(18)	<=	"11111110000001111100000011111111";
+tile_number (0)(19)	<=	"11111110000001111100000011111111";
+tile_number (0)(20)	<=	"11111111000001111100000111111111";
+tile_number (0)(21)	<=	"11111111000001111100000111111111";
+tile_number (0)(22)	<=	"11111111000001111100000111111111";
+tile_number (0)(23)	<=	"11111111000001111100000111111111";
+tile_number (0)(24)	<=	"11111110000001111100000111111111";
+tile_number (0)(25)	<=	"11111111000001111100001111111111";
+tile_number (0)(26)	<=	"11111111100001111100001111111111";
+tile_number (0)(27)	<=	"11111111110001111100001111111111";
+tile_number (0)(28)	<=	"11111111111000111000001111111111";
+tile_number (0)(29)	<=	"11111111111100000000011111111111";
+tile_number (0)(30)	<=	"11111111111110111111111111111111";
+tile_number (0)(31)	<=	"11111111111111111111111111111111";
+
 tile_number (1)( 0)	<=	"11111111111111111111111111111111";
 tile_number (1)( 1)	<=	"11111111111111111111111111111111";
 tile_number (1)( 2)	<=	"11111111111111111111111111111111";
@@ -361,40 +394,6 @@ tile_number (9)(30)	<=	"11111111111111111111111111111111";
 tile_number (9)(31)	<=	"11111111111111111111111111111111";
 
 
-tile_number (0)( 0)	<=	"11111111111111111111111111111111";
-tile_number (0)( 1)	<=	"11111111111111111111111111111111";
-tile_number (0)( 2)	<=	"11111111111111111111111111111111";
-tile_number (0)( 3)	<=	"11111111111111111111111111111111";
-tile_number (0)( 4)	<=	"11111111111000000011111111111111";
-tile_number (0)( 5)	<=	"11111111111000000001111111111111";
-tile_number (0)( 6)	<=	"11111111110000000000011111111111";
-tile_number (0)( 7)	<=	"11111111100001111100001111111111";
-tile_number (0)( 8)	<=	"11111111000001111100001111111111";
-tile_number (0)( 9)	<=	"11111111100001111100000111111111";
-tile_number (0)(10)	<=	"11111111000001111100000111111111";
-tile_number (0)(11)	<=	"11111111000001111100000111111111";
-tile_number (0)(12)	<=	"11111111000001111100000111111111";
-tile_number (0)(13)	<=	"11111111000001111100000111111111";
-tile_number (0)(14)	<=	"11111110000001111100000011111111";
-tile_number (0)(15)	<=	"11111110000001111100000011111111";
-tile_number (0)(16)	<=	"11111110000001111100000011111111";
-tile_number (0)(17)	<=	"11111110000001111100000011111111";
-tile_number (0)(18)	<=	"11111110000001111100000011111111";
-tile_number (0)(19)	<=	"11111110000001111100000011111111";
-tile_number (0)(20)	<=	"11111111000001111100000111111111";
-tile_number (0)(21)	<=	"11111111000001111100000111111111";
-tile_number (0)(22)	<=	"11111111000001111100000111111111";
-tile_number (0)(23)	<=	"11111111000001111100000111111111";
-tile_number (0)(24)	<=	"11111110000001111100000111111111";
-tile_number (0)(25)	<=	"11111111000001111100001111111111";
-tile_number (0)(26)	<=	"11111111100001111100001111111111";
-tile_number (0)(27)	<=	"11111111110001111100001111111111";
-tile_number (0)(28)	<=	"11111111111000111000001111111111";
-tile_number (0)(29)	<=	"11111111111100000000011111111111";
-tile_number (0)(30)	<=	"11111111111110111111111111111111";
-tile_number (0)(31)	<=	"11111111111111111111111111111111";
-
-
 process(clk)
 variable paint : boolean;
 begin
@@ -405,35 +404,94 @@ begin
 			end loop;
 		else
 			if count_up ='1' then
-				for i in 5 downto 0 loop
-					if counter(i) = 9 then
-						if i = 5 then
+				if counter(0)=9 then
+					counter(0)<=0;
+					if counter(1)=9 then
+						counter(1)<=0;
+						if counter(2)=9 then
+							counter(2)<=0;
 						else
-							counter(i+1) <= -1;
+							counter(2) <= counter(2) +1;
 						end if;
 					else
-						counter(i) <= counter(i) + 1;
-					end if;				
-				end loop;			
+						counter(1) <= counter(1) +1;
+					end if;
+				else
+					counter(0) <= counter(0) +1;
+				end if;
 			end if;
-		
+--				if counter(0)=0 then
+--					counter(1) <=counter(1)+1;
+--					if counter(1)=0 then
+--						counter(2)<=counter(2)+1;
+--						if counter(2)=0 then
+--							counter(3)<=counter(3)+1;
+--							if counter(3)=0 then
+--								counter(4)<=counter(4)+1;
+--								if counter(4)=0 then
+--									counter(5)<=counter(5)+1;
+--								end if;
+--							end if;
+--						end if;
+--					end if;
+--				end if;
+--			end if;
+--		
 			
 															
 			if y >= 0 and y < 32 then
-				if x >= xmin and x <  xmax then
-					if tile_number(counter(5))(y-0)(x-0) = '0' then
-						tileVgaRed <= "100";
-						tileVgaGreen <= "100";
-						tileVgaBlue <= "10";
+				if x >= 0 and x <  32 then
+					if tile_number(counter(2))(y)(32-(x-0)) = '0' then
+						paint:=true;
 					else
-						tileVgaRed <= "000";
-						tileVgaGreen <= "000";
-						tileVgaBlue <= "00";
+						paint:=false;
 					end if;
-				end if;
+				elsif x >= 32 and x <  64 then
+					if tile_number(counter(1))(y)(32-(x-32)) = '0' then
+						paint:=true;
+					else
+						paint:=false;
+					end if;
+				elsif x >= 64 and x <  96 then
+					if tile_number(counter(0))(y)(32-(x-64)) = '0' then
+						paint:=true;
+					else
+						paint:=false;
+					end if;
+				else
+					paint:=false;
+--				elsif x >= 96 and x <  128 then				
+--					if tile_number(counter(2))(y)(x-96) = '0' then
+--						paint:=true;
+--					else
+--						paint:=false;
+--					end if;
+--				elsif x >= 128 and x <  160 then
+--					if tile_number(counter(1))(y)(x-128) = '0' then
+--						paint:=true;
+--					else
+--						paint:=false;
+--					end if;
+--				elsif x >= 160 and x <  192 then
+--					if tile_number(counter(0))(y)(x-160) = '0' then
+--						paint:=true;
+--					else
+--						paint:=false;
+--					end if;					
+				end if;							
+			else
+				paint:=false;
 			end if;
-			xmax := xmax+32;
-			xmin := xmin +32;
+			
+			if paint = true then
+				tileVgaRed <= "100";
+				tileVgaGreen <= "100";
+				tileVgaBlue <= "10";
+			else
+				tileVgaRed <= "000";
+				tileVgaGreen <= "000";
+				tileVgaBlue <= "00";
+			end if;
 			
 		end if;
 	end if;
