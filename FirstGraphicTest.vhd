@@ -38,7 +38,8 @@ entity FirstGraphicTest is
 			vgaGreen: OUT  std_logic_vector(2 downto 0);		
 			vgaBlue: OUT  std_logic_vector(2 downto 1);
 			btnd: in std_logic;
-			btnu: in std_logic
+			btnu: in std_logic;
+			btnl: in std_logic
         );
 end FirstGraphicTest;
 
@@ -68,7 +69,7 @@ architecture Behavioral of FirstGraphicTest is
 	 COMPONENT sraknare
     PORT(
          clk : IN  std_logic;
-         rst : IN  std_logic;
+         hw_rst : IN  std_logic;
          vsynk : OUT  std_logic;
          hsynk : OUT  std_logic;
          y : inout  integer range 0 to 520;
@@ -99,10 +100,12 @@ architecture Behavioral of FirstGraphicTest is
     PORT(
          btnd: in std_logic;
 			btnu: in std_logic;
+			btnl: in std_logic;
          jump : OUT  std_logic;
          duck : OUT  std_logic;
          rst : in  std_logic;
-         clk : IN  std_logic
+         clk : IN  std_logic;
+			game_rst : out std_logic
         );
     END COMPONENT;
 	 
@@ -112,7 +115,8 @@ architecture Behavioral of FirstGraphicTest is
          rst : IN  std_logic;
          score : INOUT  std_logic_vector(31 downto 0);
          frame : OUT  std_logic;
-			put_block : out std_logic
+			put_block : out std_logic;
+			game_frozen: in std_logic
         );
     END COMPONENT;
 
@@ -130,6 +134,8 @@ architecture Behavioral of FirstGraphicTest is
 	   
    signal y : 	integer range 0 to 520 := 0 ;
    signal x :  integer range 0 to 799 := 0 ;
+	
+	signal game_frozen: std_logic;
 
 	signal spriteDetected : std_logic;
 	
@@ -141,10 +147,11 @@ architecture Behavioral of FirstGraphicTest is
 	
 	signal score : STD_LOGIC_VECTOR (31 downto 0);
 	signal frame : std_logic;
-
+	
 	--signal clk : std_logic := '0';
 	signal rst : std_logic := '1';
-	
+	signal hw_rst : std_logic :='1';
+	signal game_rst : std_logic;
 	-- Clock period definitions
    constant clk_period : time := 1 ns;
 	signal resetcounter : integer range 0 to 20 :=0;
@@ -168,7 +175,7 @@ begin
 		  
 	raknare: sraknare PORT MAP (
           clk => clk,
-          rst => rst,
+          hw_rst => hw_rst,
           vsynk => vsync,
           hsynk => hsync,
           x => x,
@@ -194,10 +201,12 @@ begin
 	input: InputManager PORT MAP (
           btnu => btnu,
           btnd => btnd,
+			 btnl => btnl,
           jump => jump,
           duck => duck,
           rst => rst,
-          clk => clk
+          clk => clk,
+			 game_rst => game_rst
         );
   
   frameCounteruuu: frameCounter PORT MAP (
@@ -205,18 +214,23 @@ begin
           rst => rst,
           score => score,
           frame => frame,
-			 put_block => put_box
+			 put_block => put_box,
+			 game_frozen0 => game_frozen
         );
-  clk_process :process
-  
-   begin
-		if rst = '1' and resetcounter = 19 then
-			rst<= '0';
-		elsif resetcounter =19 then
-			resetcounter <=19;
-		else
-			resetcounter <= resetcounter +1;			
-		end if;
-   end process;		  
+process(clk)
+begin
+if rising_edge(clk) then		
+	if hw_rst = '1' then
+			hw_rst<= '0';
+	elsif rst = '1' then
+		game_frozen	<= '0';
+		rst <= '0';
+	elsif collision = '1' then
+		game_frozen <= '1';	
+	elsif game_rst = '1' then
+		rst <= '1';
+	end if;		
+end if;
+end process;		  
 end Behavioral;
 

@@ -59,8 +59,8 @@ type position is array (0 to 7) of test;
 signal sprite_brick : bit_array ;
 signal sprite_gubbe:  gubb_array;
 
-signal x_pos : position  := (others => 100);
-signal y_pos : position  := (others => 200);
+signal x_pos : position;
+signal y_pos : position;
 
 signal spriteSize : integer := 32;
 signal gubbSize : integer := 64;
@@ -174,8 +174,13 @@ begin
 	if rising_edge(clk) then
 		if rst ='1' then
 			x_pos(0) <= 0;
-			x_pos(1) <= 300;
-			x_pos(2) <= 600;
+			y_pos(0) <= 200;
+			x_pos(1) <= 0;
+			y_pos(1) <= 200;
+			x_pos(2) <= 0;
+			y_pos(2) <= 200;
+			x_pos(3) <= 100;
+			y_pos(3) <= 200;			
 		else		
 			if(jump='1') then
 				y_pos(gubbe) <= 168;
@@ -184,7 +189,9 @@ begin
 			else
 				y_pos(gubbe) <= 200;
 			end if;
+			
 			detected :=false;		
+			collisionDetected := false;
 			
 			if put_box = '1' then
 				 if x_pos(0) = 0 then

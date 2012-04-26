@@ -29,8 +29,8 @@
 	--library UNISIM;
 	--use UNISIM.VComponents.all;
 	entity sraknare is
-		Port (  clk : in  STD_LOGIC;
-			rst : in  STD_LOGIC;
+		Port (  clk : in  STD_LOGIC;			
+			hw_rst : in  STD_LOGIC;
 			vsynk : out  STD_LOGIC;
 			hsynk : out  STD_LOGIC;
 			y : inout  integer range 0 to 520;
@@ -39,12 +39,12 @@
 	end sraknare;
 	architecture Behavioral of sraknare is
 	signal TEMP: STD_LOGIC_VECTOR (9 downto 0);
-	signal counter: integer range 0 to 3 := 0;
+	signal counter: integer range 0 to 3;
 	begin
 	process(clk)
 	begin
 if rising_edge(clk) then
-if rst='1' then
+if hw_rst = '1' then
 	vsynk<='0';
 	hsynk<='0';
 	x<=0;

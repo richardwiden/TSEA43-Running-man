@@ -34,23 +34,35 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity InputManager is
     Port ( 	btnd: in std_logic;
 				btnu: in std_logic;
+				btnl: in std_logic;
            jump : out  STD_LOGIC;
            duck : out  STD_LOGIC;
            rst : in  STD_LOGIC;
-           clk : in  STD_LOGIC);
+           clk : in  STD_LOGIC;
+			  game_rst: out std_logic);
 end InputManager;
 
 architecture Behavioral of InputManager is
-signal button_pressed : STD_LOGIC:='0';
-signal action : std_logic :='0';
-signal counter1024 :  STD_LOGIC_VECTOR (31 downto 0):="00000000000000000000000000000000";
+signal button_pressed : STD_LOGIC;
+signal action : std_logic;
+signal counter1024 :  STD_LOGIC_VECTOR (31 downto 0);
 begin
 
 process(clk)
 begin
 
 if rising_edge(clk) then
-		if action = '1' and counter1024 = "00000100000000000000000000000000" then
+	if rst = '1' then
+		action <= '0';
+		counter1024 <="00000000000000000000000000000000";
+		button_pressed <= '0';
+		jump <='0';
+		duck <='0';	
+		game_rst	<= '0';
+	else
+		if btnl = '1' then
+			game_rst <='1';		
+		elsif action = '1' and counter1024 = "00000100000000000000000000000000" then
 			action <= '0';
 			counter1024 <= "00000000000000000000000000000000";
 		elsif action = '0' and btnu = '1' and counter1024 ="00000000000000000000000000000000" then
@@ -71,7 +83,7 @@ if rising_edge(clk) then
 				counter1024 <= counter1024+1;
 			end if;
 		end if;
-	
+	end if;
 end if;
 end process;
 end Behavioral;
