@@ -416,26 +416,25 @@ begin
 					end if;				
 				end loop;			
 			end if;
-			xmax :=32;
-			xmin :=0;
+		
 			
-			for i in 5 downto 0 loop												
-				if y >= 0 and y < 32 then
-					if x >= xmin and x <  xmax then
-						if tile_number(counter(5))(y-0)(x-0) = '0' then
-							tileVgaRed <= "100";
-							tileVgaGreen <= "100";
-							tileVgaBlue <= "10";
-						else
-							tileVgaRed <= "000";
-							tileVgaGreen <= "000";
-							tileVgaBlue <= "00";
-						end if;
+															
+			if y >= 0 and y < 32 then
+				if x >= xmin and x <  xmax then
+					if tile_number(counter(5))(y-0)(x-0) = '0' then
+						tileVgaRed <= "100";
+						tileVgaGreen <= "100";
+						tileVgaBlue <= "10";
+					else
+						tileVgaRed <= "000";
+						tileVgaGreen <= "000";
+						tileVgaBlue <= "00";
 					end if;
 				end if;
-				xmax := xmax+32;
-				xmin := xmin +32;
-			end loop;
+			end if;
+			xmax := xmax+32;
+			xmin := xmin +32;
+			
 		end if;
 	end if;
 end process;
