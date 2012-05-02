@@ -19,6 +19,7 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.numeric_std;
 
 
@@ -53,7 +54,7 @@ subtype elements is std_logic_vector(0 to 31);
 type bit_array is array (0 to 31) of elements;
 type number_array is array (0 to 9) of bit_array;
 signal tile_number : number_array ;
-
+signal x_std : std_logic_vector( 9 downto 0);
 signal counter: counter_type;
 
 begin
@@ -397,57 +398,38 @@ tile_number (9)(31)	<=	"11111111111111111111111111111111";
 process(clk)
 variable paint : boolean;
 begin
-	if rising_edge(clk) then
+	if rising_edge(clk) then		
 		if rst = '1' then
 			for i in 5 downto 0 loop
 				counter(i) <= 0;
 			end loop;
-		else
+		else			
 			if count_up ='1' then
-				if counter(0)=9 then
-					counter(0)<=0;
-					if counter(1)=9 then
-						counter(1)<=0;
-						if counter(2)=9 then
-							counter(2)<=0;
-							if counter(3)=9 then
-								counter(3) <= 0;
+				if counter(3)=9 then
+					counter(3)<=0;
+					if counter(2)=9 then
+						counter(2)<=0;
+						if counter(1)=9 then
+							counter(1)<=0;
+							if counter(0)=9 then
+								counter(0) <= 0;
 							else
-								counter(3) <= counter(3) +1;
+								counter(0) <= counter(0) +1;
 							end if;
 						else
-							counter(2) <= counter(2) +1;
+							counter(1) <= counter(1) +1;
 						end if;
 					else
-						counter(1) <= counter(1) +1;
+						counter(2) <= counter(2) +1;
 					end if;
 				else
-					counter(0) <= counter(0) +1;
+					counter(3) <= counter(3) +1;
 				end if;
 			end if;	
 			paint:=false;
 			
---			if y >= 0 and y < 32 then
---				if x >= 0 and x <  32 then					
---					if tile_number(counter(3))(y)(x mod 32) = '0' then
---						paint:=true;						
---					end if;
---				elsif x >= 32 and x <  64 then
---					if tile_number(counter(2))(y)(x mod 32) = '0' then
---						paint:=true;						
---					end if;
---				elsif x >= 64 and x <  96 then
---					if tile_number(counter(1))(y)(x mod 32) = '0' then
---						paint:=true;
---					end if;
---				elsif x >= 96 and x <  128 then
---					if tile_number(counter(0))(y)(x mod 32) = '0' then
---						paint:=true;
---					end if;		
---				end if;							
---			end if;
-			
-			if y >= 0 and y < 32 and x< 128 and x>=0 and tile_number(counter(x/32))(y)(x mod 32) = '0' then
+			-- Måste vara integers då indexes i arrays måste vara integers
+			if y >= 0 and y < 32 and x < 128 and x >= 32 and tile_number(counter(x/32))(y)(x mod 32) = '0' then
 				tileVgaRed <= "100";
 				tileVgaGreen <= "100";
 				tileVgaBlue <= "10";
