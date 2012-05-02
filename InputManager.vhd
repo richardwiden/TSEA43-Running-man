@@ -62,7 +62,7 @@ if rising_edge(clk) then
 	else
 		if btnl = '1' then
 			game_rst <='1';		
-		elsif action = '1' and counter1024 = "00000100000000000000000000000000" then
+		elsif action = '1' and counter1024 = "00000011000000000000000000000000" then
 			action <= '0';
 			counter1024 <= "00000000000000000000000000000000";
 		elsif action = '0' and btnu = '1' and counter1024 ="00000000000000000000000000000000" then

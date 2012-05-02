@@ -425,40 +425,29 @@ begin
 					counter(0) <= counter(0) +1;
 				end if;
 			end if;	
-															
-			if y >= 0 and y < 32 then
-				if x >= 0 and x <  32 then
-					if tile_number(counter(3))(y)(x mod 32) = '0' then
-						paint:=true;
-					else
-						paint:=false;
-					end if;
-				elsif x >= 32 and x <  64 then
-					if tile_number(counter(2))(y)(x mod 32) = '0' then
-						paint:=true;
-					else
-						paint:=false;
-					end if;
-				elsif x >= 64 and x <  96 then
-					if tile_number(counter(1))(y)(x mod 32) = '0' then
-						paint:=true;
-					else
-						paint:=false;
-					end if;
-				elsif x >= 96 and x <  128 then
-					if tile_number(counter(0))(y)(x mod 32) = '0' then
-						paint:=true;
-					else
-						paint:=false;
-					end if;
-				else
-					paint:=false;			
-				end if;							
-			else
-				paint:=false;
-			end if;
+			paint:=false;
 			
-			if paint = true then
+--			if y >= 0 and y < 32 then
+--				if x >= 0 and x <  32 then					
+--					if tile_number(counter(3))(y)(x mod 32) = '0' then
+--						paint:=true;						
+--					end if;
+--				elsif x >= 32 and x <  64 then
+--					if tile_number(counter(2))(y)(x mod 32) = '0' then
+--						paint:=true;						
+--					end if;
+--				elsif x >= 64 and x <  96 then
+--					if tile_number(counter(1))(y)(x mod 32) = '0' then
+--						paint:=true;
+--					end if;
+--				elsif x >= 96 and x <  128 then
+--					if tile_number(counter(0))(y)(x mod 32) = '0' then
+--						paint:=true;
+--					end if;		
+--				end if;							
+--			end if;
+			
+			if y >= 0 and y < 32 and x< 128 and x>=0 and tile_number(counter(x/32))(y)(x mod 32) = '0' then
 				tileVgaRed <= "100";
 				tileVgaGreen <= "100";
 				tileVgaBlue <= "10";
