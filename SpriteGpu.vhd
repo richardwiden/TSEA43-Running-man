@@ -63,10 +63,9 @@ type y_position is array (0 to 3) of yrange;
 
 signal sprite_brick : bit_array ;
 signal sprite_gubbe:  manga_gubbar;
-signal sprite_gubbe_aktiv:  gubb_array;
 signal x_pos : x_position;
 signal y_pos : y_position;
-
+signal gubb_sprite : integer range 0 to 3;
 
 signal btnuPressed: std_logic;
 begin
@@ -363,7 +362,7 @@ sprite_gubbe(1)	(58)	<=	"00000111100000000000000011111000";
 sprite_gubbe(1)	(59)	<=	"00000001000000000000000001111000";
 sprite_gubbe(1)	(60)	<=	"00000000000000000000000000100000";
 sprite_gubbe(1)	(61)	<=	"00000000000000000000000000000000";
-sprite_gubbe(1)	(62)	<=	"00000000000000000000000000100000";
+sprite_gubbe(1)	(62)	<=	"00000000000000000000000000000000";
 sprite_gubbe(1)	(63)	<=	"00000000000000000000000000000000";
 
 process(clk)
@@ -383,19 +382,20 @@ begin
 			y_pos(2) <= 200;
 			x_pos(3) <= 100;
 			y_pos(3) <= 200;			
+			gubb_sprite <= 0;
 		else		
 			if(jump='1') then
 				y_pos(gubbe) <= 168;
-				sprite_gubbe_aktiv<=sprite_gubbe(2);
+				gubb_sprite <= 2;
 			elsif(duck='1') then
 				y_pos(gubbe) <= 232;
-				sprite_gubbe_aktiv<=sprite_gubbe(3);
+				gubb_sprite <= 3;
 			else
 				y_pos(gubbe) <= 200;
 				if split_legs = '1' then
-						sprite_gubbe_aktiv<=sprite_gubbe(0);
+						gubb_sprite <= 0;
 				else
-						sprite_gubbe_aktiv<=sprite_gubbe(1);
+						gubb_sprite <=1;
 				end if;
 			end if;
 			
@@ -433,9 +433,8 @@ begin
 					end if;
 				end loop;
 			end if;
-
-			for i in 2 downto 0 loop
-			
+		
+			for i in 2 downto 0 loop			
 				if y>=y_pos(i) and y < (y_pos(i)+spriteSize) then
 					if x>= x_pos(i) and x < (x_pos(i)+spriteSize) then
 						if sprite_brick( y - y_pos(i) )( x - x_pos(i) ) = '1' then
@@ -451,7 +450,7 @@ begin
 			
 			if y>=y_pos(gubbe) and y < (y_pos(gubbe)+gubbSize) then
 				if x>= x_pos(gubbe) and x < (x_pos(gubbe)+spriteSize) then
-					if sprite_gubbe_aktiv( y - y_pos(gubbe) )( x - x_pos(gubbe) ) = '1' then
+					if sprite_gubbe(gubb_sprite)( y - y_pos(gubbe) )( x - x_pos(gubbe) ) = '1' then
 						spriteVgaRed<="111";				
 						spriteVgaGreen<="101";
 						spriteVgaBlue<="00";
@@ -462,6 +461,8 @@ begin
 					end if;					
 				end if;					
 			end if;
+			
+
 					
 			if detected = true then
 				spriteDetected <= '1';
