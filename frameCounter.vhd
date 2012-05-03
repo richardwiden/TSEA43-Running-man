@@ -57,7 +57,7 @@ architecture Behavioral of frameCounter is
 				put_block <= '0';
 				time_counter2 <= "0011";
 				time_counter <= "00000010000000000000000000000000";
-				split_legs <= 0;
+				split_legs <= '0';
 			elsif game_frozen = '1' then
 			else
 				counter_frame<=counter_frame + 1;	

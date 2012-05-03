@@ -381,7 +381,7 @@ begin
 			x_pos(2) <= 0;
 			y_pos(2) <= 200;
 			x_pos(3) <= 100;
-			y_pos(3) <= 200;			
+			y_pos(3) <= 210;			
 			gubb_sprite <= 0;
 		else		
 			if(jump='1') then
@@ -391,11 +391,11 @@ begin
 				y_pos(gubbe) <= 232;
 				gubb_sprite <= 3;
 			else
-				y_pos(gubbe) <= 200;
+				y_pos(gubbe) <= 210;
 				if split_legs = '1' then
-						gubb_sprite <= 0;
+						gubb_sprite <= 1;
 				else
-						gubb_sprite <=1;
+						gubb_sprite <= 0;
 				end if;
 			end if;
 			
