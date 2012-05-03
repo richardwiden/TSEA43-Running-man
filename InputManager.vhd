@@ -43,7 +43,6 @@ entity InputManager is
 end InputManager;
 
 architecture Behavioral of InputManager is
-signal button_pressed : STD_LOGIC;
 signal action : std_logic;
 signal counter1024 :  STD_LOGIC_VECTOR (31 downto 0);
 begin
@@ -55,7 +54,6 @@ if rising_edge(clk) then
 	if rst = '1' then
 		action <= '0';
 		counter1024 <="00000000000000000000000000000000";
-		button_pressed <= '0';
 		jump <='0';
 		duck <='0';	
 		game_rst	<= '0';

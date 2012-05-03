@@ -39,14 +39,14 @@ architecture Behavioral of RandomGen is
 
 begin
 process(clk)
-variable v0 : STD_LOGIC_VECTOR (0 to 9) := "1011011001";
-variable v1 : STD_LOGIC_VECTOR (0 to 9) := "0101100110";
-variable v2 : STD_LOGIC_VECTOR (0 to 9) := "1010110100";
-variable v3 : STD_LOGIC_VECTOR (0 to 9) := "0010100011";
-variable v4 : STD_LOGIC_VECTOR (0 to 9) := "1100101010";
-variable v5 : STD_LOGIC_VECTOR (0 to 9) := "1100011011";
-variable v6 : STD_LOGIC_VECTOR (0 to 9) := "0101101001";
-variable v7 : STD_LOGIC_VECTOR (0 to 9) := "0100101001";
+constant v0 : STD_LOGIC_VECTOR (0 to 9) := "1011011001";
+constant v1 : STD_LOGIC_VECTOR (0 to 9) := "0101100110";
+constant v2 : STD_LOGIC_VECTOR (0 to 9) := "1010110100";
+constant v3 : STD_LOGIC_VECTOR (0 to 9) := "0010100011";
+constant v4 : STD_LOGIC_VECTOR (0 to 9) := "1100101010";
+constant v5 : STD_LOGIC_VECTOR (0 to 9) := "1100011011";
+constant v6 : STD_LOGIC_VECTOR (0 to 9) := "0101101001";
+constant v7 : STD_LOGIC_VECTOR (0 to 9) := "0100101001";
 variable u : integer := 0;
 begin
 

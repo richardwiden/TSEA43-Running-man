@@ -47,7 +47,7 @@ end TileGpu;
 
 architecture Behavioral of TileGpu is
 subtype heltal is integer  range 0 to 9;
-type counter_type is array (0 to 5) of heltal;
+type counter_type is array (0 to 3) of heltal;
 
 
 subtype elements is std_logic_vector(0 to 31);
@@ -400,19 +400,20 @@ variable paint : boolean;
 begin
 	if rising_edge(clk) then		
 		if rst = '1' then
-			for i in 5 downto 0 loop
-				counter(i) <= 0;
-			end loop;
+			counter(0) <= 0;
+			counter(1) <= 0;
+			counter(2) <= 0;
+			counter(3) <= 0;
 		else			
 			if count_up ='1' then
-				if counter(3)=9 then
-					counter(3)<=0;
-					if counter(2)=9 then
-						counter(2)<=0;
-						if counter(1)=9 then
-							counter(1)<=0;
-							if counter(0)=9 then
-								counter(0) <= 0;
+				if counter(3) = 9 then
+					counter(3) <= 0;
+					if counter(2) = 9 then
+						counter(2) <= 0;
+						if counter(1) = 9 then
+							counter(1) <= 0;
+							if counter(0) = 9 then
+								counter(0) <= 0;											
 							else
 								counter(0) <= counter(0) +1;
 							end if;
@@ -426,10 +427,11 @@ begin
 					counter(3) <= counter(3) +1;
 				end if;
 			end if;	
-			paint:=false;
+			
 			
 			-- Måste vara integers då indexes i arrays måste vara integers
-			if y >= 0 and y < 32 and x < 128 and x >= 32 and tile_number(counter(x/32))(y)(x mod 32) = '0' then
+			
+			if y >= 0 and y < 32 and x < 128 and x >= 0 and tile_number(counter(x/32))(y)(x mod 32) = '0' then
 				tileVgaRed <= "100";
 				tileVgaGreen <= "100";
 				tileVgaBlue <= "10";
