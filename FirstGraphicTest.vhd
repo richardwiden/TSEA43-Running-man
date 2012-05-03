@@ -133,6 +133,13 @@ architecture Behavioral of FirstGraphicTest is
 			count_up : in std_logic
 		);
 	END COMPONENT;
+	
+	COMPONENT BlockHan
+		PORT(
+			clk : IN  std_logic;
+			send : OUT  std_logic
+		);
+	END COMPONENT;
 
    --Inputs   
    
@@ -160,7 +167,7 @@ architecture Behavioral of FirstGraphicTest is
 	signal duck : std_logic;
 	
 	signal put_box: std_logic;
-	signal next_box:  std_logic :='1';
+	signal next_box:  std_logic;
 	
 	signal score : STD_LOGIC_VECTOR (31 downto 0);
 	signal frame : std_logic;
@@ -250,6 +257,11 @@ begin
 		game_frozen => game_frozen,
 		split_legs => split_legs
 	);
+	
+	blockhanuut: BlockHan PORT MAP (
+          clk => clk,
+          send => next_box
+        );
 
 process(clk)
 begin
