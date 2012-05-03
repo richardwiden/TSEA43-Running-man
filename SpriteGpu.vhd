@@ -434,18 +434,21 @@ begin
 				end loop;
 			end if;
 		
-			for i in 2 downto 0 loop			
-				if y>=y_pos(i) and y < (y_pos(i)+spriteSize) then
-					if x>= x_pos(i) and x < (x_pos(i)+spriteSize) then
-						if sprite_brick( y - y_pos(i) )( x - x_pos(i) ) = '1' then
-							spriteVgaRed<="111";				
-							spriteVgaGreen<="101";
-							spriteVgaBlue<="11";
-							detected:= true;
+			for i in 2 downto 0 loop
+				if x_pos(i) = 0 then 
+				
+				else
+					if y>=y_pos(i) and y < (y_pos(i)+spriteSize) then
+						if x>= x_pos(i)-32 and x < (x_pos(i)+spriteSize-32 ) then
+							if sprite_brick( y - y_pos(i) )( x - x_pos(i)+32 ) = '1' then
+								spriteVgaRed<="111";				
+								spriteVgaGreen<="101";
+								spriteVgaBlue<="11";
+								detected:= true;
+							end if;					
 						end if;					
-					end if;					
+					end if;
 				end if;
-						
 			end loop;
 			
 			if y>=y_pos(gubbe) and y < (y_pos(gubbe)+gubbSize) then
