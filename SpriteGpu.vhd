@@ -381,7 +381,7 @@ begin
 			x_pos(2) <= 0;
 			y_pos(2) <= 200;
 			x_pos(3) <= 100;
-			y_pos(3) <= 205			
+			y_pos(3) <= 205;		
 			gubb_sprite <= 0;
 		else		
 			if(jump='1') then
