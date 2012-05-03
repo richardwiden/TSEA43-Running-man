@@ -57,7 +57,7 @@ type bit_array is array (0 to 31) of elements;
 type gubb_array is array (0 to 63) of elements;
 type manga_gubbar is array (0 to 3) of gubb_array;
 subtype xrange is integer  range 0 to 800;
-subtype yrange is integer  range 168 to 232;
+subtype yrange is integer  range 128 to 256;
 type x_position is array (0 to 3) of xrange;
 type y_position is array (0 to 3) of yrange;
 
