@@ -60,9 +60,9 @@ else
 		counter <= 3;
 	else
 		counter <= 0;	 
-		if x="1100011111" then  --799
+		if x="01100011111" then  --799
 			x<="00000000000";  --0
-			if y="1000001000" then --520
+			if y="01000001000" then --520
 				y<="00000000000";  --0
 			else
 				y<=y + 1;
@@ -70,12 +70,12 @@ else
 		else
 			x<=x + 1;
 		end if;
-		if x>="1010001111" and x<= "1011101111" then -- >= 655 och <=751
+		if x>="01010001111" and x<= "01011101111" then -- >= 655 och <=751
 			hsynk<='1';
 		else
 			hsynk<='0';
 		end if;
-		if y>="111101001" and y<="111101011" then -- ==489 mellan ==491
+		if y>="00111101001" and y<="00111101011" then -- ==489 mellan ==491
 			vsynk<='1';
 		else
 			vsynk<='0';

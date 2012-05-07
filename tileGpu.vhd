@@ -430,7 +430,7 @@ begin
 				end if;
 			end if;	
 
-			if y >= "0" and y < "10000" and x < "10000000" and x >= "0" then				
+			if y >= "0" and y < "100000" and x < "10000000" and x >= "0" then				
 				if tile_number(counter(conv_integer(x(10 downto 5))))(conv_integer(y))(conv_integer(x(4 downto 0))) = '0' then
 					tileVgaRed <= "100";
 					tileVgaGreen <= "100";
