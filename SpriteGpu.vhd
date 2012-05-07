@@ -427,9 +427,8 @@ begin
 				 end if;
 			elsif move_box ='1' then
 				for i in 2 downto 0 loop
-					if x_pos(i)>"0" then
-						
-						x_pos(i) <= std_logic_vector(unsigned(x_pos(i)) + 1);
+					if x_pos(i)>"00000000000" then						
+						x_pos(i) <= std_logic_vector(unsigned(x_pos(i)) - 1);
 					end if;
 				end loop;
 			end if;

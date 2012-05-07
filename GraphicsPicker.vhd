@@ -65,7 +65,7 @@ if rising_edge(clk) then
 				vgaBlue<=spriteVgaBlue;
 			elsif y>"00100010010" then --274
 				vgaRed<="000";
-				vgaGreen<="000";
+				vgaGreen<="010";
 				vgaBlue<="00";
 			elsif y>"00100001000" then  --264
 				vgaRed<="100";
