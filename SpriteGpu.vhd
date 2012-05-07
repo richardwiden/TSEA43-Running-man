@@ -19,7 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.numeric_std;
+use IEEE.std_logic_unsigned.all;
+use IEEE.numeric_std.all;
 
 
 -- Uncomment the following library declaration if using
@@ -33,8 +34,8 @@ use IEEE.numeric_std;
 
 entity SpriteGpu is
     Port ( 	clk : in  STD_LOGIC;
-				x : in  integer;
-				y : in  integer;
+				y : in  std_logic_vector (10 downto 0);
+				x : in  std_logic_vector (10 downto 0);
 				spriteVgaRed: out  std_logic_vector(2 downto 0);					
 				spriteVgaGreen: out  std_logic_vector(2 downto 0);		
 				spriteVgaBlue: out  std_logic_vector(2 downto 1);
@@ -56,15 +57,13 @@ subtype elements is std_logic_vector(31 downto 0);
 type bit_array is array (0 to 31) of elements;
 type gubb_array is array (0 to 63) of elements;
 type manga_gubbar is array (0 to 3) of gubb_array;
-subtype xrange is integer  range 0 to 800;
-subtype yrange is integer  range 128 to 256;
+subtype xrange is std_logic_vector (10 downto 0);
 type x_position is array (0 to 3) of xrange;
-type y_position is array (0 to 3) of yrange;
 
 signal sprite_brick : bit_array ;
 signal sprite_gubbe:  manga_gubbar;
 signal x_pos : x_position;
-signal y_pos : y_position;
+signal y_pos : x_position;
 signal gubb_sprite : integer range 0 to 3;
 
 signal btnuPressed: std_logic;
@@ -374,24 +373,24 @@ constant gubbSize : integer := 64;
 begin
 	if rising_edge(clk) then
 		if rst ='1' then
-			x_pos(0) <= 0;
-			y_pos(0) <= 200;
-			x_pos(1) <= 0;
-			y_pos(1) <= 200;
-			x_pos(2) <= 0;
-			y_pos(2) <= 200;
-			x_pos(3) <= 100;
-			y_pos(3) <= 205;		
+			x_pos(0) <= "00000000000"; --0
+			y_pos(0) <= "00011001000"; --200
+			x_pos(1) <= "00000000000"; --0
+			y_pos(1) <= "00011001000"; --200
+			x_pos(2) <= "00000000000"; --0
+			y_pos(2) <= "00011001000"; --200
+			x_pos(3) <= "00001100100"; --100
+			y_pos(3) <= "00011001101"; --205		
 			gubb_sprite <= 0;
 		else		
 			if(jump='1') then
-				y_pos(gubbe) <= 173;
+				y_pos(gubbe) <= "00010101101"; --173
 				gubb_sprite <= 2;
 			elsif(duck='1') then
-				y_pos(gubbe) <= 237;
+				y_pos(gubbe) <= "00011101101"; --237
 				gubb_sprite <= 3;
 			else
-				y_pos(gubbe) <= 205;
+				y_pos(gubbe) <= "00011001101"; --205
 				if split_legs = '1' then
 						gubb_sprite <= 1;
 				else
@@ -402,47 +401,48 @@ begin
 			detected :=false;		
 			collisionDetected := false;
 			
-			if put_box = '1' then
-				 if x_pos(0) = 0 then
-					x_pos(0) <= 800;
+			if put_box = '1' then 
+				 if x_pos(0) = "0" then
+					x_pos(0) <= 	"01100100000"; --800
 					if next_box ='1' then
-						y_pos(0) <= 200;
+						y_pos(0) <= "00011001000"; --200
 					else
-						y_pos(0) <= 232;
+						y_pos(0) <= "00011101000"; --232
 					end if;
-				 elsif x_pos(1) = 0 then
-					x_pos(1) <= 800;
+				 elsif x_pos(1) = "00000000000" then --0
+					x_pos(1) <= 	"01100100000"; --800
 					if next_box ='1' then
-						y_pos(1) <= 200;
+						y_pos(1) <= "0011001000"; --200
 					else
-						y_pos(1) <= 232;
+						y_pos(1) <= "0011101000"; --232
 					end if;
-				 elsif x_pos(2) = 0 then
-					x_pos(2) <= 800;
+				 elsif x_pos(2) = "0000000000" then --0
+					x_pos(2) <= 	"1100100000"; --800
 					if next_box ='1' then
-						y_pos(2) <= 200;
+						y_pos(2) <= "0011001000"; --200
 					else
-						y_pos(2) <= 232;
+						y_pos(2) <= "0011101000"; --232
 					end if;
 				 else
 				 end if;
 			elsif move_box ='1' then
 				for i in 2 downto 0 loop
-					if x_pos(i)>0 then
-						x_pos(i) <= x_pos(i) -1;
+					if x_pos(i)>"0" then
+						
+						x_pos(i) <= std_logic_vector(unsigned(x_pos(i)) + 1);
 					end if;
 				end loop;
 			end if;
 		
 			for i in 2 downto 0 loop
-				if x_pos(i) = 0 then 
+				if x_pos(i) = "0" then 
 				
 				else
-					if y>=y_pos(i) and y < (y_pos(i)+spriteSize) then
-						if x>= x_pos(i)-32 and x < (x_pos(i)+spriteSize-32 ) then
-							if sprite_brick( y - y_pos(i) )( x - x_pos(i)+32 ) = '1' then
+					if y>=y_pos(i) and y < std_logic_vector(unsigned(y_pos(i))+32) then --spritesize 32
+						if x>= std_logic_vector(unsigned(x_pos(i))-32) and x < (x_pos(i) ) then -- spritesize-32=0 för förflyttning av kordinatsystem
+							if sprite_brick( conv_integer(y - y_pos(i)) )( conv_integer(x - std_logic_vector(unsigned(x_pos(i))+32 ))) = '1' then -- -(xpos-32) = -xpos +32
 								spriteVgaRed<="111";				
-								spriteVgaGreen<="101";
+								spriteVgaGreen<="011";
 								spriteVgaBlue<="11";
 								detected:= true;
 							end if;					
@@ -451,11 +451,11 @@ begin
 				end if;
 			end loop;
 			
-			if y>=y_pos(gubbe) and y < (y_pos(gubbe)+gubbSize) then
-				if x>= x_pos(gubbe) and x < (x_pos(gubbe)+spriteSize) then
-					if sprite_gubbe(gubb_sprite)( y - y_pos(gubbe) )( x - x_pos(gubbe) ) = '1' then
+			if y>=y_pos(gubbe) and y < (std_logic_vector(unsigned(y_pos(gubbe))+64)) then --64
+				if x>= x_pos(gubbe) and x < std_logic_vector(unsigned(x_pos(gubbe))+32) then --32
+					if sprite_gubbe(gubb_sprite)( conv_integer(y - y_pos(gubbe)) )( conv_integer((x - x_pos(gubbe)) )) = '1' then
 						spriteVgaRed<="111";				
-						spriteVgaGreen<="101";
+						spriteVgaGreen<="100";
 						spriteVgaBlue<="00";
 						if detected = true then
 							collisionDetected := true;
@@ -475,7 +475,7 @@ begin
 			
 			if collisionDetected = true then
 				collision <='1';
-				else
+			else
 				collision <='0';
 			end if;
 		end if;

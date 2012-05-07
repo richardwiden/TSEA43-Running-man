@@ -57,8 +57,8 @@ architecture Behavioral of FirstGraphicTest is
 			spriteVgaRed: in  std_logic_vector(2 downto 0);					
 			spriteVgaGreen: in  std_logic_vector(2 downto 0);		
 			spriteVgaBlue: in  std_logic_vector(2 downto 1);
-			y : in integer range 0 to 520;
-			x : in integer range 0 to 799;
+			y : in  std_logic_vector (10 downto 0);
+			x : in  std_logic_vector (10 downto 0);
 			vgaRed: OUT  std_logic_vector(2 downto 0);					
 			vgaGreen: OUT  std_logic_vector(2 downto 0);		
 			vgaBlue: OUT  std_logic_vector(2 downto 1);
@@ -72,15 +72,15 @@ architecture Behavioral of FirstGraphicTest is
 			hw_rst : IN  std_logic;
 			vsynk : OUT  std_logic;
 			hsynk : OUT  std_logic;
-			y : inout  integer range 0 to 520;
-			x : inout  integer range 0 to 799
+			y : inout  std_logic_vector (10 downto 0);
+			x : inout  std_logic_vector (10 downto 0)
 		);
 	END COMPONENT;
 
 	COMPONENT SpriteGpu
 		PORT( 	clk : in  STD_LOGIC;
-			x : in  integer;
-			y : in  integer;
+			y : in  std_logic_vector (10 downto 0);
+			x : in  std_logic_vector (10 downto 0);
 			spriteVgaRed: out  std_logic_vector(2 downto 0);					
 			spriteVgaGreen: out  std_logic_vector(2 downto 0);		
 			spriteVgaBlue: out  std_logic_vector(2 downto 1);
@@ -124,8 +124,8 @@ architecture Behavioral of FirstGraphicTest is
 	COMPONENT TileGpu
 		PORT(
 			clk : IN  std_logic;
-			x : IN  integer;
-			y : IN  integer;
+			y : in  std_logic_vector (10 downto 0);
+			x : in  std_logic_vector (10 downto 0);
 			tileVgaRed : OUT  std_logic_vector(2 downto 0);
 			tileVgaGreen : OUT  std_logic_vector(2 downto 0);
 			tileVgaBlue : OUT  std_logic_vector(2 downto 1);
@@ -152,8 +152,8 @@ architecture Behavioral of FirstGraphicTest is
 	signal spriteVgaGreen:	std_logic_vector(2 downto 0);	
 	signal spriteVgaBlue:	std_logic_vector(2 downto 1);
 	   
-   signal y : 	integer range 0 to 520 := 0 ;
-   signal x :  integer range 0 to 799 := 0 ;
+   signal y : std_logic_vector (10 downto 0);
+	signal x : std_logic_vector (10 downto 0);
 	
 	signal scorecounter : integer range 0 to 16;
 	

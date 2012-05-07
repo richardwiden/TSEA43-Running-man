@@ -20,7 +20,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.numeric_std;
+use IEEE.std_logic_unsigned.all;
+use IEEE.numeric_std.all;
 
 
 -- Uncomment the following library declaration if using
@@ -34,8 +35,8 @@ use IEEE.numeric_std;
 
 entity TileGpu is
     Port ( 	clk : in  STD_LOGIC;
-				x : in  integer;
-				y : in  integer;
+				y : in  std_logic_vector (10 downto 0);
+				x : in  std_logic_vector (10 downto 0);
 				tileVgaRed: out  std_logic_vector(2 downto 0);					
 				tileVgaGreen: out  std_logic_vector(2 downto 0);		
 				tileVgaBlue: out  std_logic_vector(2 downto 1);	
@@ -56,7 +57,8 @@ type number_array is array (0 to 9) of bit_array;
 signal tile_number : number_array ;
 signal x_std : std_logic_vector( 9 downto 0);
 signal counter: counter_type;
-
+variable temp1: integer;
+variable temp2: integer;
 begin
 tile_number (0)( 0)	<=	"11111111111111111111111111111111";
 tile_number (0)( 1)	<=	"11111111111111111111111111111111";
@@ -117,7 +119,7 @@ tile_number (1)(22)	<=	"11111111111110000011111111111111";
 tile_number (1)(23)	<=	"11111111111110000011111111111111";
 tile_number (1)(24)	<=	"11111111111110000011111111111111";
 tile_number (1)(25)	<=	"11111111111110000011111111111111";
-tile_number (1)(26)	<=	"11111111111111111111111111111111";
+tile_number (1)(26)	<=	"11111111111110000011111111111111";
 tile_number (1)(27)	<=	"11111111111111111111111111111111";
 tile_number (1)(28)	<=	"11111111111111111111111111111111";
 tile_number (1)(29)	<=	"11111111111111111111111111111111";
@@ -396,7 +398,6 @@ tile_number (9)(31)	<=	"11111111111111111111111111111111";
 
 
 process(clk)
-variable paint : boolean;
 begin
 	if rising_edge(clk) then		
 		if rst = '1' then
@@ -404,6 +405,9 @@ begin
 			counter(1) <= 0;
 			counter(2) <= 0;
 			counter(3) <= 0;
+			tileVgaRed <= "000";
+			tileVgaGreen <= "000";
+			tileVgaBlue <= "00";
 		else			
 			if count_up ='1' then
 				if counter(3) = 9 then
@@ -427,14 +431,17 @@ begin
 					counter(3) <= counter(3) +1;
 				end if;
 			end if;	
-			
-			
-			-- Måste vara integers då indexes i arrays måste vara integers
-			
-			if y >= 0 and y < 32 and x < 128 and x >= 0 and tile_number(counter(x/32))(y)(x mod 32) = '0' then
-				tileVgaRed <= "100";
-				tileVgaGreen <= "100";
-				tileVgaBlue <= "10";
+
+			if y >= "0" and y < "10000" and x < "10000000" and x >= "0" then				
+				if tile_number(counter(conv_integer(x(10 downto 5))))(conv_integer(y))(conv_integer(x(4 downto 0))) = '0' then
+					tileVgaRed <= "100";
+					tileVgaGreen <= "100";
+					tileVgaBlue <= "10";
+				else
+					tileVgaRed <= "000";
+					tileVgaGreen <= "000";
+					tileVgaBlue <= "00";
+				end if;
 			else
 				tileVgaRed <= "000";
 				tileVgaGreen <= "000";

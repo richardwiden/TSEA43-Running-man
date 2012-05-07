@@ -33,6 +33,7 @@ use IEEE.numeric_std;
 
 entity GraphicsPicker is
 	Port ( 
+	
 		clk : in  STD_LOGIC;
 		tileVgaRed: in  std_logic_vector(2 downto 0);					
 		tileVgaGreen: in  std_logic_vector(2 downto 0);		
@@ -40,8 +41,8 @@ entity GraphicsPicker is
 		spriteVgaRed: in  std_logic_vector(2 downto 0);					
 		spriteVgaGreen: in  std_logic_vector(2 downto 0);		
 		spriteVgaBlue: in  std_logic_vector(2 downto 1);
-		y : in  integer range 0 to 520;
-		x : in  integer range 0 to 799;
+		y : in  std_logic_vector (10 downto 0);
+		x : in  std_logic_vector (10 downto 0);
 		vgaRed: OUT  std_logic_vector(2 downto 0);					
 		vgaGreen: OUT  std_logic_vector(2 downto 0);		
 		vgaBlue: OUT  std_logic_vector(2 downto 1);
@@ -50,29 +51,23 @@ entity GraphicsPicker is
 end GraphicsPicker;
 
 architecture Behavioral of GraphicsPicker is
-signal whiteVgaRed: std_logic_vector(2 downto 0) := "111";					
-signal whiteVgaGreen:   std_logic_vector(2 downto 0) := "000";					
-signal whiteVgaBlue:   std_logic_vector(2 downto 1) := "00";					
-signal	blackVgaRed: std_logic_vector(2 downto 0) := "000";					
-signal	blackVgaGreen:   std_logic_vector(2 downto 0) := "000";					
-signal	blackVgaBlue:   std_logic_vector(2 downto 1) := "11";		
 
 begin 
 				
 process(clk)
 begin
 if rising_edge(clk) then
-	if y>150 and y<480 then
-		if x<640 then
+	if y>"10010110" and y<"111100000" then -- 150 480
+		if x<"1010000000" then --640
 			if spriteDetected = '1' then
 				vgaRed<=spriteVgaRed;	
 				vgaGreen<=spriteVgaGreen;
 				vgaBlue<=spriteVgaBlue;
-			elsif y>274 then 
+			elsif y>"100010010" then --274
 				vgaRed<="000";
 				vgaGreen<="000";
 				vgaBlue<="00";
-			elsif y>264 then 
+			elsif y>"100001000" then  --264
 				vgaRed<="100";
 				vgaGreen<="010";
 				vgaBlue<="01";	
@@ -86,8 +81,8 @@ if rising_edge(clk) then
 			vgaGreen<="000";
 			vgaBlue<="00";
 		end if;
-	elsif y<=150 then
-		if x<640 then
+	elsif y<="10010110" then --150
+		if x<"1010000000" then --640
 			vgaRed<=tileVgaRed;	
 			vgaGreen<=tileVgaGreen;
 			vgaBlue<=tileVgaBlue;	

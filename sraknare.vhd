@@ -32,9 +32,9 @@
 		Port (  clk : in  STD_LOGIC;			
 			hw_rst : in  STD_LOGIC;
 			vsynk : out  STD_LOGIC;
-			hsynk : out  STD_LOGIC;
-			y : inout  integer range 0 to 520;
-			x : inout  integer range 0 to 799
+			hsynk : out  STD_LOGIC;			
+			y : inout  std_logic_vector (10 downto 0);
+			x : inout  std_logic_vector (10 downto 0)
 		);
 	end sraknare;
 	architecture Behavioral of sraknare is
@@ -47,8 +47,8 @@ if rising_edge(clk) then
 if hw_rst = '1' then
 	vsynk<='0';
 	hsynk<='0';
-	x<=0;
-	y<=0;
+	x<="00000000000";
+	y<="00000000000";
 	counter<= 0;
 else
 
@@ -60,22 +60,22 @@ else
 		counter <= 3;
 	else
 		counter <= 0;	 
-		if x=799 then  --800
-			x<=0;  --0
-			if y=520 then --521
-				y<=0;  --0
+		if x="1100011111" then  --799
+			x<="00000000000";  --0
+			if y="1000001000" then --520
+				y<="00000000000";  --0
 			else
 				y<=y + 1;
 			end if;
 		else
 			x<=x + 1;
 		end if;
-		if x>=655 and x<= 751 then -- >= 656 och <=752
+		if x>="1010001111" and x<= "1011101111" then -- >= 655 och <=751
 			hsynk<='1';
 		else
 			hsynk<='0';
 		end if;
-		if y>=489 and y<=491 then -- ==490  eller ==491
+		if y>="111101001" and y<="111101011" then -- ==489 mellan ==491
 			vsynk<='1';
 		else
 			vsynk<='0';
