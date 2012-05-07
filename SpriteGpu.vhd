@@ -402,26 +402,26 @@ begin
 			collisionDetected := false;
 			
 			if put_box = '1' then 
-				 if x_pos(0) = "0" then
-					x_pos(0) <= 	"01100100000"; --800
+				 if x_pos(0) = 		"00000000000" then
+					x_pos(0) <= 		"01100100000"; --800
 					if next_box ='1' then
-						y_pos(0) <= "00011001000"; --200
+						y_pos(0) <= 	"00011001000"; --200
 					else
-						y_pos(0) <= "00011101000"; --232
+						y_pos(0) <= 	"00011101000"; --232
 					end if;
-				 elsif x_pos(1) = "00000000000" then --0
-					x_pos(1) <= 	"01100100000"; --800
+				 elsif x_pos(1) = 	"00000000000" then --0
+					x_pos(1) <= 		"01100100000"; --800
 					if next_box ='1' then
-						y_pos(1) <= "0011001000"; --200
+						y_pos(1) <= 	"00011001000"; --200
 					else
-						y_pos(1) <= "0011101000"; --232
+						y_pos(1) <= 	"00011101000"; --232
 					end if;
-				 elsif x_pos(2) = "0000000000" then --0
-					x_pos(2) <= 	"1100100000"; --800
+				 elsif x_pos(2) = 	"00000000000" then --0
+					x_pos(2) <= 		"01100100000"; --800
 					if next_box ='1' then
-						y_pos(2) <= "0011001000"; --200
+						y_pos(2) <= 	"00011001000"; --200
 					else
-						y_pos(2) <= "0011101000"; --232
+						y_pos(2) <= 	"00011101000"; --232
 					end if;
 				 else
 				 end if;
@@ -435,7 +435,7 @@ begin
 			end if;
 		
 			for i in 2 downto 0 loop
-				if x_pos(i) = "0" then 
+				if x_pos(i) = "00000000000" then 
 				
 				else
 					if y>=y_pos(i) and y < std_logic_vector(unsigned(y_pos(i))+32) then --spritesize 32

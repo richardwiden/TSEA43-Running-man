@@ -55,10 +55,8 @@ subtype elements is std_logic_vector(0 to 31);
 type bit_array is array (0 to 31) of elements;
 type number_array is array (0 to 9) of bit_array;
 signal tile_number : number_array ;
-signal x_std : std_logic_vector( 9 downto 0);
+signal x_std : std_logic_vector( 9 downto 0);
 signal counter: counter_type;
-variable temp1: integer;
-variable temp2: integer;
 begin
 tile_number (0)( 0)	<=	"11111111111111111111111111111111";
 tile_number (0)( 1)	<=	"11111111111111111111111111111111";
