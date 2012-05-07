@@ -57,17 +57,17 @@ begin
 process(clk)
 begin
 if rising_edge(clk) then
-	if y>"10010110" and y<"111100000" then -- 150 480
-		if x<"1010000000" then --640
+	if y>"00010010110" and y<"00111100000" then -- 150 480
+		if x<"01010000000" then --640
 			if spriteDetected = '1' then
 				vgaRed<=spriteVgaRed;	
 				vgaGreen<=spriteVgaGreen;
 				vgaBlue<=spriteVgaBlue;
-			elsif y>"100010010" then --274
+			elsif y>"00100010010" then --274
 				vgaRed<="000";
 				vgaGreen<="000";
 				vgaBlue<="00";
-			elsif y>"100001000" then  --264
+			elsif y>"00100001000" then  --264
 				vgaRed<="100";
 				vgaGreen<="010";
 				vgaBlue<="01";	
@@ -81,7 +81,7 @@ if rising_edge(clk) then
 			vgaGreen<="000";
 			vgaBlue<="00";
 		end if;
-	elsif y<="10010110" then --150
+	elsif y<="00010010110" then --150
 		if x<"1010000000" then --640
 			vgaRed<=tileVgaRed;	
 			vgaGreen<=tileVgaGreen;
