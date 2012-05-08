@@ -31,7 +31,7 @@ use IEEE.numeric_std;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity GraphicsPicker is
+entity GraphicsPicker is --Bestämmer vad vi ska rita på vilka delar av skärmen.
 	Port ( 
 	
 		clk : in  STD_LOGIC;
@@ -57,41 +57,41 @@ begin
 process(clk)
 begin
 if rising_edge(clk) then
-	if y>"00010010110" and y<"00111100000" then -- 150 480
-		if x<"01010000000" then --640
+	if y>"00010010110" and y<"00111100000" then --För 150<y<480 ska vi rita sprites
+		if x<"01010000000" then --Vi ska rita till 640 i x-led
 			if spriteDetected = '1' then
 				vgaRed<=spriteVgaRed;	
 				vgaGreen<=spriteVgaGreen;
 				vgaBlue<=spriteVgaBlue;
-			elsif y>"00100010010" then --274
+			elsif y>"00100010010" then --För y>274 ritar vi ut "gräs"
 				vgaRed<="000";
 				vgaGreen<="010";
 				vgaBlue<="00";
-			elsif y>"00100001000" then  --264
+			elsif y>"00100001000" then  --För y>264 ritar vi ut "stig"
 				vgaRed<="100";
 				vgaGreen<="010";
 				vgaBlue<="01";	
-			else
+			else --Här ritar vi ut "himmel"
 				vgaRed<="010";
 				vgaGreen<="101";
 				vgaBlue<="10";
 			end if;
-		else
+		else --Utanför skärmen ritar vi svart
 			vgaRed<="000";
 			vgaGreen<="000";
 			vgaBlue<="00";
 		end if;
-	elsif y<="00010010110" then --150
-		if x<"1010000000" then --640
+	elsif y<="00010010110" then --y<=150 ska tiles ritas ut
+		if x<"1010000000" then --x<640
 			vgaRed<=tileVgaRed;	
 			vgaGreen<=tileVgaGreen;
 			vgaBlue<=tileVgaBlue;	
-		else
+		else --Utanför skärmen ritar vi svart
 			vgaRed<="000";
 			vgaGreen<="000";
 			vgaBlue<="00";			
 		end if;
-	else
+	else --Utanför skärmen ritar vi svart
 		vgaRed<="000";
 		vgaGreen<="000";
 		vgaBlue<="00";

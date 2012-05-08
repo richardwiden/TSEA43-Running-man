@@ -441,7 +441,7 @@ begin
 						if x>= std_logic_vector(unsigned(x_pos(i))-32) and x < (x_pos(i) ) then -- spritesize-32=0 för förflyttning av kordinatsystem
 							if sprite_brick( conv_integer(y - y_pos(i)) )( conv_integer(x - std_logic_vector(unsigned(x_pos(i))+32 ))) = '1' then -- -(xpos-32) = -xpos +32
 								spriteVgaRed<="111";				
-								spriteVgaGreen<="011";
+								spriteVgaGreen<="101";
 								spriteVgaBlue<="11";
 								detected:= true;
 							end if;					

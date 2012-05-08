@@ -44,44 +44,43 @@
 	process(clk)
 	begin
 if rising_edge(clk) then
-if hw_rst = '1' then
-	vsynk<='0';
-	hsynk<='0';
-	x<="00000000000";
-	y<="00000000000";
-	counter<= 0;
-else
-
-	if counter = 0 then
-		counter <= 1;
-	elsif	counter = 1 then
-		counter <= 2;
-	elsif counter = 2 then
-		counter <= 3;
+	if hw_rst = '1' then
+		vsynk<='0';
+		hsynk<='0';
+		x<="00000000000";
+		y<="00000000000";
+		counter<= 0;
 	else
-		counter <= 0;	 
-		if x="01100011111" then  --799
-			x<="00000000000";  --0
-			if y="01000001000" then --520
-				y<="00000000000";  --0
+		if counter = 0 then
+			counter <= 1;
+		elsif	counter = 1 then
+			counter <= 2;
+		elsif counter = 2 then
+			counter <= 3;
+		else
+			counter <= 0;	 
+			if x="01100011111" then  --799
+				x<="00000000000";  --0
+				if y="01000001000" then --520
+					y<="00000000000";  --0
+				else
+					y<=y + 1;
+				end if;
 			else
-				y<=y + 1;
+				x<=x + 1;
 			end if;
-		else
-			x<=x + 1;
-		end if;
-		if x>="01010001111" and x<= "01011101111" then -- >= 655 och <=751
-			hsynk<='1';
-		else
-			hsynk<='0';
-		end if;
-		if y>="00111101001" and y<="00111101011" then -- ==489 mellan ==491
-			vsynk<='1';
-		else
-			vsynk<='0';
+			if x>="01010001111" and x<= "01011101111" then -- >= 655 och <=751
+				hsynk<='1';
+			else
+				hsynk<='0';
+			end if;
+			if y>="00111101001" and y<="00111101011" then -- ==489 mellan ==491
+				vsynk<='1';
+			else
+				vsynk<='0';
+			end if;
 		end if;
 	end if;
-end if;
 end if;
 end process;
 end Behavioral;

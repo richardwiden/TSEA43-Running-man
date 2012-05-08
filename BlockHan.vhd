@@ -36,43 +36,21 @@ end BlockHan;
 
 architecture Behavioral of BlockHan is
 
-	COMPONENT RandomGen
-    PORT(
-         clk : IN  std_logic;
-         uppner : OUT	std_logic_vector(9 downto 0)
-        );
-   END COMPONENT;
-	 
-	COMPONENT Blocky
-    PORT(
-         clk : IN  std_logic;
-         uppner : IN	std_logic_vector(9 downto 0);
-			place : INOUT std_logic
-        );
-   END COMPONENT;
-
-	signal uppner : std_logic_vector(9 downto 0) := "0000000000";
-	signal place : std_logic := '0';
 begin
 
-rnd: RandomGen PORT MAP (
-		 clk => clk,
-		 uppner=>uppner
-	  );
-	  
-blo: Blocky PORT MAP (
-		 clk => clk,
-		 uppner=>uppner,
-		 place => place
-	  );
-
 process(clk)
-variable i : integer;
+variable i : integer := 0;
+constant uppner : std_logic_vector(31 downto 0) := "10011010110100101011010100100101";
 
 begin
 
 if rising_edge(clk) then
-	send <= place;
+	if i <= 31 then
+		send <= uppner(i);
+		i := i+1;
+	else
+		i := 0;
+	end if;
 end if;
 
 end process;
