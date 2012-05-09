@@ -43,7 +43,7 @@ entity InputManager is
 end InputManager;
 
 architecture Behavioral of InputManager is
-signal action : std_logic;
+signal hinder_action : std_logic;
 signal counter1024 :  STD_LOGIC_VECTOR (31 downto 0);
 begin
 
@@ -52,32 +52,32 @@ begin
 
 if rising_edge(clk) then
 	if rst = '1' then
-		action <= '0';
+		hinder_action <= '0';
 		counter1024 <="00000000000000000000000000000000";
 		jump <='0';
 		duck <='0';	
 		game_rst	<= '0';
 	else
-		if btnl = '1' then
+		if btnl = '1' then --Reset
 			game_rst <='1';		
-		elsif action = '1' and counter1024 = "00000011000000000000000000000000" then
-			action <= '0';
+		elsif hinder_action = '1' and counter1024 = "00000011000000000000000000000000" then --Vi ska nu börja ta emot signaler igen.
+			hinder_action <= '0';
 			counter1024 <= "00000000000000000000000000000000";
-		elsif action = '0' and btnu = '1' and counter1024 ="00000000000000000000000000000000" then
+		elsif hinder_action = '0' and btnu = '1' and counter1024 ="00000000000000000000000000000000" then --Skickar iväg jump.
 			jump <='1';
 			counter1024 <=counter1024+1;			
-		elsif action = '0' and btnd='1' and counter1024 ="00000000000000000000000000000000" then
+		elsif hinder_action = '0' and btnd='1' and counter1024 ="00000000000000000000000000000000" then --Skickar iväg duck.
 			duck <= '1';
 			counter1024 <=counter1024+1;
 		else
-			if counter1024 = "00001000000000000000000000000000" then
+			if counter1024 = "00001000000000000000000000000000" then --Man ska landa eller ställa sig upp här.
 				jump <='0';
 				duck <='0';
-				action <= '1';
+				hinder_action <= '1'; --Säger att man inte kan göra nåt.
 				counter1024 <= "00000000000000000000000000000001";
-			elsif counter1024 = "00000000000000000000000000000000" then
+			elsif counter1024 = "00000000000000000000000000000000" then --Om counter1024=0 ska vi inte göra nåt.
 				counter1024 <=counter1024;
-			else			
+			else --Annars räkna upp.
 				counter1024 <= counter1024+1;
 			end if;
 		end if;
