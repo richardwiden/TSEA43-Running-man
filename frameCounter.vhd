@@ -49,35 +49,36 @@ architecture Behavioral of frameCounter is
 	begin
 		if rising_edge(clk) then
 			if(rst='1') then
-				score <= "00000000000000000000000000000000"; --1 000 000 000
+				score <= "00000000000000000000000000000000"; --0
 				frame <= '0';
 				counter_speed <= "00000000000000000000000000000000";
 				counter_frame <= "00000000000000000000000000000000";
-				speed <= "00000000000010000000000000000000";
+				speed <= "00000000000010000000000000000000"; --524288 (Högre tal -> lägre hastighet)
 				put_block <= '0';
-				time_counter2 <= "0011";
-				time_counter <= "00000010000000000000000000000000";
+				time_counter2 <= "0011"; --3
+				time_counter <= "00000010000000000000000000000000"; --33554432
 				split_legs <= '0';
-			elsif game_frozen = '1' then
+			elsif game_frozen = '1' then --Om vi har krockat är game_frozen=1 och vi ska inte göra nåt.
 			else
 				counter_frame<=counter_frame + 1;	
 				time_counter2 <= time_counter2 -1;
-				if time_counter2 = "0000" then
+				if time_counter2 = "0000" then --Var 4:e clockpuls ska vi räkna ner time_counter.
 					time_counter2 <= "0011";
 					time_counter <= time_counter -1;
-					if time_counter = "00000000000000000000000000000000" then
-						time_counter <= "00000100000000000000000000000000";
+					if time_counter = "00000000000000000000000000000000" then --Nu ska vi skicka block.
+						time_counter <= "00000100000000000000000000000000"; --67108864
 						put_block <='1';						
 					end if;
 				else
 					put_block <='0';
 				end if;
-				if counter_frame = speed  then--40 000
+
+				if counter_frame = speed  then --Speed minskar då och då och därför kommer vi in i satsen öftare ju längre vi har kört.
 					counter_frame<="00000000000000000000000000000000";
-					frame<='1';
-					if counter_speed = "00000000000000000000010000000000" then
-						if speed >  "00000000000000001000000000000000" then
-							speed <= speed - "00000000000000000100000000000000";
+					frame<='1'; --Nu ska vi rita ut. (FPS ökar ju längre vi kommer)
+					if counter_speed = "00000000000000000000010000000000" then --Ökar hastigheten vid 1024
+						if speed >  "00000000000000001000000000000000" then --Hastighetsstopp vid 32768
+							speed <= speed - "00000000000000000100000000000000"; --16384
 						end if;
 						counter_speed <="00000000000000000000000000000000";
 					else
