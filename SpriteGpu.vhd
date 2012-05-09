@@ -357,7 +357,6 @@ sprite_gubbe(1)	(55)	<=	"00001111100000000000011111100000";
 sprite_gubbe(1)	(56)	<=	"00001111100000000000001111110000";
 sprite_gubbe(1)	(57)	<=	"00001111100000000000000111111000";
 sprite_gubbe(1)	(58)	<=	"00000111100000000000000011111000";
-
 sprite_gubbe(1)	(59)	<=	"00000001000000000000000001111000";
 sprite_gubbe(1)	(60)	<=	"00000000000000000000000000100000";
 sprite_gubbe(1)	(61)	<=	"00000000000000000000000000000000";
@@ -383,13 +382,13 @@ begin
 			y_pos(3) <= "00011001101"; --205		
 			gubb_sprite <= 0;
 		else		
-			if(jump='1') then
+			if(jump='1') then --Om jump trycks ner flyttas spriten upp.
 				y_pos(gubbe) <= "00010101101"; --173
 				gubb_sprite <= 2;
-			elsif(duck='1') then
+			elsif(duck='1') then --Om duck trycks ner flyttas spriten ner.
 				y_pos(gubbe) <= "00011101101"; --237
 				gubb_sprite <= 3;
-			else
+			else --Annars springer han.
 				y_pos(gubbe) <= "00011001101"; --205
 				if split_legs = '1' then
 						gubb_sprite <= 1;
@@ -401,44 +400,29 @@ begin
 			detected :=false;		
 			collisionDetected := false;
 			
-			if put_box = '1' then 
-				 if x_pos(0) = 		"00000000000" then
-					x_pos(0) <= 		"01100100000"; --800
-					if next_box ='1' then
-						y_pos(0) <= 	"00011001000"; --200
-					else
-						y_pos(0) <= 	"00011101000"; --232
+			if put_box = '1' then --Ska vi skicka ut låda? Gör det.
+				for i in 2 downto 0 loop --För 3 lådor.
+					if x_pos(i) = "00000000000" then --0 --Om den är längst till vänster
+						x_pos(i) <= 		"01100100000"; --800 --ska vi lägga den längst till höger.
+						if next_box ='1' then --Ska den vara uppe eller nere?
+							y_pos(i) <= 	"00011001000"; --Ska den vara uppe så sätter vi y=200
+						else
+							y_pos(i) <= 	"00011101000"; --Ska den vara nere så sätter vi y=232
+						end if;
 					end if;
-				 elsif x_pos(1) = 	"00000000000" then --0
-					x_pos(1) <= 		"01100100000"; --800
-					if next_box ='1' then
-						y_pos(1) <= 	"00011001000"; --200
-					else
-						y_pos(1) <= 	"00011101000"; --232
-					end if;
-				 elsif x_pos(2) = 	"00000000000" then --0
-					x_pos(2) <= 		"01100100000"; --800
-					if next_box ='1' then
-						y_pos(2) <= 	"00011001000"; --200
-					else
-						y_pos(2) <= 	"00011101000"; --232
-					end if;
-				 else
-				 end if;
-			elsif move_box ='1' then
+				end loop;
+			elsif move_box ='1' then --Flyttar lådorna.
 				for i in 2 downto 0 loop
 					if x_pos(i)>"00000000000" then						
-						x_pos(i) <= std_logic_vector(unsigned(x_pos(i)) - 1);
+						x_pos(i) <= std_logic_vector(unsigned(x_pos(i)) - 1); --Flyttar dem en bit i taget.
 					end if;
 				end loop;
 			end if;
 		
 			for i in 2 downto 0 loop
-				if x_pos(i) = "00000000000" then 
-				
-				else
-					if y>=y_pos(i) and y < std_logic_vector(unsigned(y_pos(i))+32) then --spritesize 32
-						if x>= std_logic_vector(unsigned(x_pos(i))-32) and x < (x_pos(i) ) then -- spritesize-32=0 f�r f�rflyttning av kordinatsystem
+				if x_pos(i) /= "00000000000" then 
+					if y>=y_pos(i) and y < std_logic_vector(unsigned(y_pos(i))+32) then --Om vi är inuti spriten ska vi rita ut den. Den är 32x32 bitar stor.
+						if x>= std_logic_vector(unsigned(x_pos(i))-32) and x < (x_pos(i) ) then -- spritesize-32=0 f�r f�rflyttning av kordinatsystem
 							if sprite_brick( conv_integer(y - y_pos(i)) )( conv_integer(x - std_logic_vector(unsigned(x_pos(i))+32 ))) = '1' then -- -(xpos-32) = -xpos +32
 								spriteVgaRed<="111";				
 								spriteVgaGreen<="101";
@@ -450,14 +434,14 @@ begin
 				end if;
 			end loop;
 			
-			if y>=y_pos(gubbe) and y < (std_logic_vector(unsigned(y_pos(gubbe))+64)) then --64
+			if y>=y_pos(gubbe) and y < (std_logic_vector(unsigned(y_pos(gubbe))+64)) then --Om vi är inuti spriten ska vi rita ut den. Den är 64x32 bitar stor.
 				if x>= x_pos(gubbe) and x < std_logic_vector(unsigned(x_pos(gubbe))+32) then --32
-					if sprite_gubbe(gubb_sprite)( conv_integer(y - y_pos(gubbe)) )( conv_integer((x - x_pos(gubbe)) )) = '1' then
+					if sprite_gubbe(gubb_sprite)( conv_integer(y - y_pos(gubbe)) )( conv_integer((x - x_pos(gubbe)) )) = '1' then --Kollar vilka bitar vi ska rita ut.
 						spriteVgaRed<="111";				
 						spriteVgaGreen<="100";
 						spriteVgaBlue<="00";
-						if detected = true then
-							collisionDetected := true;
+						if detected = true then --Kollar om vi krockar med en annan sprite.
+							collisionDetected := true; --Säger att vi har krockat.
 						end if;
 						detected:= true;
 					end if;					
@@ -465,7 +449,7 @@ begin
 			end if;
 			
 
-					
+					--Skickar vidare så att spelet vet att vi ska stanna. 
 			if detected = true then
 				spriteDetected <= '1';
 			else
@@ -477,6 +461,7 @@ begin
 			else
 				collision <='0';
 			end if;
+
 		end if;
 	end if;
 end process;
